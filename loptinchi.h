@@ -1,13 +1,10 @@
 #pragma once
-#include "svandangki.h"
-#include <iostream>
-#include <stdlib.h>
-#include <cstring> 
-#include <windows.h>
-#define MAXLOP 30
+#include "monhoc.h"
 #define TRUE 1
 #define FALSE 0
 #define MAX 100
+
+using namespace std;
 
 struct dsloptinchi { // cau truc danh sach lop tin chi
 	int MALOPTC; //  random so co 3 chu so
@@ -21,40 +18,24 @@ typedef struct dsloptinchi dsltc;
 
 struct nodett { // danh sach lop tin chi la mang con tro ( node tuyen tinh )
 	int n=0; 
-	dsltc nodett[MAX];
+	dsltc *nodett[MAX];
 };
-typedef struct nodett *NODETT;	// NODETT p=new nodett[MAX] 
+typedef struct nodett NODETT;	
 
-int Emptytt (NODETT &ds) {
-	return ds->n == 0;
-}
-
-int Fulltt (NODETT ds) {
-	return ds->n == MAX;
-}
-
-//int Insert_item (NODETT &ds, int i, dsltc *list) {
-//	int j;
-//	if (i < 0 || i > ds->n || Fulltt(ds)) {
-//		return 0;
-//	}
-//	for (j = ds->n - 1; j >= i; j-- ) {
-//		ds->nodett[j+1] = ds->nodett[j];
-//	}
-//	ds->nodett[i] = list;
-//	ds->n++;
-//	return 1;
-//}
-
-int FindSpace(dsltc &ltc); // ham tim khoang trang
-int Search (NODETT &ds, char MALOP[10]); // ham tim Ma lop tin chi da co
-int SearchMALOPTC(NODETT &ds, unsigned int temp);
-void gotoxy(int x, int y); 
-int CreateLopTinChi (NODETT &ds); // ham tao lop tin chi
-void ShowData(NODETT &ds); // ham xuat danh sach lop tin chi
-void DocFile (NODETT &ds);
-void GhiFile (dsltc &ltc);
+int Emptytt (NODETT &ds);
+int Fulltt (NODETT ds);
+int Search_MAMONHOC (NODETT &ds, char MAMONHOC[10]); // ham tin ma mon hoc da co
+int Search_MALOPTC(NODETT &ds, unsigned int temp); // ham tim Ma lop tin chi da co
+int Search_NIENKHOA(NODETT &ds, unsigned int temp);
+int Search_HOCKY(NODETT &ds, unsigned int temp);
+int Search_SVMAX(NODETT &ds, unsigned int temp);
+int TraverseINT (NODETT &ds,unsigned int temp);
+int TraverseCHAR (NODETT &ds,char temp[10]);
+int Create_LopTinChi (NODETT &ds); // ham tao lop tin chi
+void Show_Data_LTC(NODETT &ds); // ham xuat danh sach lop tin chi
+void DocFile_LTC(NODETT &ds);
+void GhiFile_LTC(NODETT &ds);
+void Delete_LTC_MALOPTC(NODETT &ds, unsigned int temp);
+void Delete_LTC_MAMONHOC(NODETT &ds, char MAMONHOC[10]);
 unsigned int Random();
-
-
 

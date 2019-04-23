@@ -1,110 +1,99 @@
-#pragma once
-#include <iostream>
-#include <fstream>
-#include <string.h>
-#include <conio.h>
-#include "Graphic.h"
-#include <time.h>
 #include "loptinchi.h"
-#include <windows.h>
-#define MAX 100
-#include <math.h>
 using namespace std;
 
-int FindSpace(dsltc &ltc) { //ham tim khoang trang
-	NODETT ds;
-	for (int i=0;i<strlen(ltc.MAMH);i++) {
-		if (ltc.MAMH[i] == ' ') {
-			return FALSE;
-		}
-	}
-	return TRUE;
+int Emptytt (NODETT &ds) {
+	if (ds.n == 0) 
+		return TRUE;
+	else return FALSE;	
 }
 
-int Search (NODETT &ds, char MALOP[10]) { // ham kiem tra ma mon hoc co ton tai hay chua
-	for (int i=0;i<ds->n;i++) {
-		if (stricmp(ds->nodett[i].MAMH,MALOP)==0) {
-			return FALSE;
-		}
-	}
-	return TRUE;
+int Fulltt (NODETT ds) {
+	if (ds.n == MAX) 
+		return TRUE;
+	else return FALSE;
 }
 
-int SearchMALOPTC (NODETT &ds, unsigned int temp) { // ham kiem tra ma lop tin chi co ton tai hay chua
-	for (int i=0;i<ds->n;i++) {
-		if (ds->nodett[i].MALOPTC == temp) {
-			return FALSE;
+
+int Search_MAMONHOC (NODETT &ds, char MAMONHOC[10]) { // ham kiem tra ma mon hoc co ton tai hay chua
+	for (int i=0;i<ds.n;i++) {
+		if (stricmp(ds.nodett[i]->MAMH,MAMONHOC)==0) {
+			return TRUE;
 		}
 	}
-	return TRUE;
+	return FALSE;
 }
 
-int CreateLopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
-	ofstream fout;
+int Search_MALOPTC (NODETT &ds, unsigned int temp) { // ham kiem tra ma lop tin chi co ton tai hay chua
+	for (int i=0;i<ds.n;i++) {
+		if (ds.nodett[i]->MALOPTC == temp) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 	unsigned int temp;
-	dsltc ltc;
-	char MALOP[10],MH[10],NK[10],HK[10],SVM[200];
+	char MH[10],NK[10],HK[10],SVM[200];
 	fflush(stdin);
-	if (Fulltt(ds)) {
-		cout << "Danh sach da day khong the them."<<endl;
-	}
 	do {
-		
-		ClearScreen();
+		ds.nodett[ds.n] = new dsltc;
+		XoaManHinh();
 		char buff [33];		
 		cout << "\nNhap Ma Mon Hoc (nhap q hoac 0 de thoat): ";
 		fflush(stdin);
 		gets(MH);
 		if (stricmp(MH,"q") == 0) {
-			cout << "\nThoat.";
 			break;
 		}
 		if (strcmp(MH,itoa(0,buff,10))==0) {
-				break;
+			break;
 		}
-		if (strlen(MH)==0 || atoi(MH) > 0 || atoi(MH) < 0 || FindSpace(ltc) == 0) {
+		if (strlen(MH)==0 || atoi(MH) > 0 || atoi(MH) < 0 || Find_Space(MH) == 0) {
+			cout<< "\nKhong hop le, nhap lai";
+			delete ds.nodett[ds.n];
+			ds.n--;
+			getch();
 			continue;
 		}
-		if (Search(ds,MH) == 0) {
+		if (Search_MAMONHOC(ds,MH) == 1) {
 			cout << "\nMa mon hoc da co, vui long nhap lai: ";
-			system("pause");
+			getch();
 			continue;
 		}
-		strcpy(ltc.MAMH,strupr(MH));
+		strcpy(ds.nodett[ds.n]->MAMH,strupr(MH));
 		
 		do {
-			ClearScreen();
+			XoaManHinh();
 			cout << "\nNhap Nien Khoa: ";
 			fflush(stdin);
 			gets(NK);
-		} while (strlen(NK)==0 || atoi(NK)<=0);
-		ltc.NIENKHOA = atoi(NK);
+		} while (strlen(NK)==0 || NumberOnly(NK) == 0);
+		ds.nodett[ds.n]->NIENKHOA = atoi(NK);
 		do {
-			ClearScreen();
+			XoaManHinh();
 			cout << "\nNhap hoc ki bat dau: ";
 			fflush(stdin);
 			gets(HK);
-		} while (strlen(HK)==0 || atoi(HK)<=0);
-		ltc.HOCKY = atoi(HK);
+		} while (strlen(HK)==0 || NumberOnly(HK) == 0);
+		ds.nodett[ds.n]->HOCKY = atoi(HK);
 		do {
-			ClearScreen();
+			XoaManHinh();
 			cout << "\nNhap So Sinh Vien Toi Da: ";
 			fflush(stdin);
 			gets(SVM);
-		} while (strlen(SVM)==0 || atoi(SVM)<=0);
-		ltc.SVMAX = atoi (SVM);
+		} while (strlen(SVM)==0 || NumberOnly(SVM) == 0);
+		ds.nodett[ds.n]->SVMAX = atoi (SVM);
 		do {		
 				temp = Random();		
-		} while(SearchMALOPTC(ds,temp) == 0);
-		ltc.MALOPTC = temp;	
-		ds->nodett[ds->n++] = ltc;
-		GhiFile(ltc);
-	} while (ds->n < MAX);
-	return 0;	
+		} while(Search_MALOPTC(ds,temp) == 1);
+		ds.nodett[ds.n]->MALOPTC = temp;	
+		ds.n++;
+	} while (ds.n <= MAX);
 }
 
-void ShowData(NODETT &ds) {
-	ClearScreen();
+void Show_Data_LTC(NODETT &ds) { // ham show du lieu
+	XoaManHinh();
 	gotoxy(45,1);
 	cout<<"DANH SACH CAC LOP TIN CHI";
 	gotoxy(14,3);
@@ -124,69 +113,74 @@ void ShowData(NODETT &ds) {
 		cout <<"=";
 	}
 	for (int i=0;i<=88;i++) { //ve line phia duoi
-		gotoxy(i+11,ds->n + 5);
+		gotoxy(i+11,ds.n + 5);
 		cout <<"=";
 	}
-	for (int i=0;i<ds->n + 4;i++) { // ve line ben trai
+	for (int i=0;i<ds.n + 4;i++) { // ve line ben trai
 		gotoxy(11,i+1);
 		cout <<"//"<<"\n";
 	}
-	for (int i=0;i<ds->n + 4;i++) { // ve line ben phai
+	for (int i=0;i<ds.n + 4;i++) { // ve line ben phai
 		gotoxy(98,i+1);
 		cout <<"//"<<"\n";
 	}
-	for (int i=0;i<ds->n;i++) { // in ra data
+	for (int i=0;i<ds.n;i++) { // in ra data
 		gotoxy(15,i+4);
 		cout << i+1;
 		gotoxy(28,i+4);
-		cout << ds->nodett[i].MALOPTC;
+		cout << ds.nodett[i]->MALOPTC;
 		gotoxy(42,i+4);
-		cout << ds->nodett[i].MAMH;
+		cout << ds.nodett[i]->MAMH;
 		gotoxy(58,i+4);
-		cout << ds->nodett[i].NIENKHOA;
+		cout << ds.nodett[i]->NIENKHOA;
 		gotoxy(76,i+4);
-		cout << ds->nodett[i].HOCKY;
+		cout << ds.nodett[i]->HOCKY;
 		gotoxy(91,i+4);
-		cout << ds->nodett[i].SVMAX;
+		cout << ds.nodett[i]->SVMAX;
 		cout << endl;
 	}
-	gotoxy(0,ds->n + 6);
+	gotoxy(0,ds.n + 6);
 	cout << " ";
 }
 
-void DocFile (NODETT &ds) {
+void DocFile_LTC (NODETT &ds) { // load du lieu tu file vao bo nho
 	dsltc ltc;
-	ifstream fin("loptinchi.txt",ios_base::in);
-	if (fin.fail() == TRUE) {
+	fstream filein("loptinchi.txt",ios_base::in);
+	if (filein.fail() == TRUE) {
 		cout << "\nFile khong ton tai.";
-		system("pause");
+		getch();
+		return;
 	}
 	do {
-		fin>>ltc.MALOPTC;
-		fin>>ltc.MAMH;
-		fin>>ltc.NIENKHOA;
-		fin>>ltc.HOCKY;
-		fin>>ltc.SVMAX;
-		if(fin==NULL) {
+		ds.nodett[ds.n] = new dsltc;
+		filein>>ds.nodett[ds.n]->MALOPTC;
+		filein>>ds.nodett[ds.n]->MAMH;
+		filein>>ds.nodett[ds.n]->NIENKHOA;
+		filein>>ds.nodett[ds.n]->HOCKY;
+		filein>>ds.nodett[ds.n]->SVMAX;
+		ds.n++;
+		if(filein == NULL) {
         	break;
     	}
-		ds->nodett[ds->n++] = ltc;
-	} while (!fin.eof());
-	fin.close();
+		
+	} while (!filein.eof());
+	filein.close();
 }
 
-void GhiFile (dsltc &ltc) {
-	ofstream fout("loptinchi.txt",ios_base::out | ios_base::app);
-	fout << "\n" << ltc.MALOPTC << "\n";
-	fout << ltc.MAMH << "\n";
-	fout << ltc.NIENKHOA << "\n";
-	fout << ltc.HOCKY << "\n";
-	fout << ltc.SVMAX;
-	fout.close();
+void GhiFile_LTC(NODETT &ds) { // ghi du lieu tu bo nho vao file 
+	ofstream fileout("loptinchi.txt",ios_base::out);
+	for (int i=0;i<ds.n;i++) {
+		fileout << "\n";
+		fileout << ds.nodett[i]->MALOPTC << "\n";
+		fileout << ds.nodett[i]->MAMH << "\n";
+		fileout << ds.nodett[i]->NIENKHOA << "\n";
+		fileout << ds.nodett[i]->HOCKY << "\n";
+		fileout << ds.nodett[i]->SVMAX;
+	}
+	fileout.close();
 }
 
-unsigned int Random()
-{	
+unsigned int Random() {	// ham tao ngau nhien so tu 100 -> 999
 	unsigned int a;
 	srand(time(0));
 	for( int i = 1; i < 1000; i++)
@@ -196,13 +190,61 @@ unsigned int Random()
     return a;
 }
 
-int main()
-{
-	NODETT ds = new nodett[MAX];
-	DocFile(ds);
-	CreateLopTinChi(ds);
-	ShowData(ds);
-//	system("pause");
+int TraverseINT (NODETT &ds,unsigned int temp) { // tra ve vi tri temp trong danh sach
+	for (int i=0;i<ds.n;i++) {
+		if (ds.nodett[i]->MALOPTC == temp) {
+			return i+1;
+		}
+	}
 	return 0;
+}
+
+int TraverseCHAR (NODETT &ds,char MAMONHOC[10]) { // tra ve vi tri temp trong danh sach
+	for (int i=0;i<ds.n;i++) {
+		if (stricmp(ds.nodett[i]->MAMH,MAMONHOC)==0) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+void Delete_LTC_MALOPTC(NODETT &ds, unsigned int temp) { //xoa nodes theo ma lop tin chi trong bo nho
+	int a;
+	
+	if (Emptytt(ds)) {
+		cout << "\nChua co lop tin chi";
+		getch();
+	} else {
+		a = TraverseINT(ds,temp); 
+		if (Search_MALOPTC(ds,temp) == 1) {
+			for (a;a<ds.n;a++) {
+				ds.nodett[a-1] = ds.nodett[a];
+			}
+			ds.n--;
+		} else {
+			cout << "\nKhong Tim Thay Ma Lop Tin Chi!";
+			getch();
+		}
+	}
+}
+
+void Delete_LTC_MAMONHOC(NODETT &ds, char MAMONHOC[10]) { //xoa nodes theo ma lop tin chi trong bo nho
+	int a;
+	
+	if (Emptytt(ds)) {
+		cout << "\nChua co lop tin chi";
+		getch();
+	}
+	a = TraverseCHAR(ds,MAMONHOC); 
+	if (Search_MAMONHOC(ds,MAMONHOC) == 1) {
+		for (a;a<ds.n;a++) {
+			ds.nodett[a-1] = ds.nodett[a];
+		}
+		ds.n--;
+	} else {
+		cout << "\nKhong Tim Thay Ma Lop Tin Chi, nhap lai";
+		getch();
+	}
+	
 }
 
