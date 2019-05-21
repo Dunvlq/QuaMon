@@ -22,47 +22,147 @@ void Insert_Node_Tree(PTR_NODETREE &ds, dsmh mh) {
 		p->RIGHT = NULL;
 		ds = p;
 	} else {
-		if (stricmp(ds->monhoc.MAMH,mh.MAMH) < 0) {
+		if (stricmp(mh.MAMH,ds->monhoc.MAMH) < 0) {
 			Insert_Node_Tree (ds->LEFT,mh);
-		} else if (stricmp(ds->monhoc.MAMH,mh.MAMH) > 0) {
+		}else if (stricmp(mh.MAMH,ds->monhoc.MAMH) > 0) {
 			Insert_Node_Tree (ds->RIGHT,mh);
-		} else {
-			cout << "\nDu lieu bi trung !";
 		}
 	}
 } 
 
+int Search_MaMonHoc(PTR_NODETREE ds, char *mh) {
+	if (ds==NULL) {
+		return FALSE;
+	} 
+	else {
+		if (stricmp(mh,ds->monhoc.MAMH) == 0)
+		{
+			return TRUE;
+		}
+		else if (stricmp(mh,ds->monhoc.MAMH) < 0)
+		{
+			Search_MaMonHoc(ds->LEFT, mh);
+		}
+		else if (stricmp(mh,ds->monhoc.MAMH) > 0 ) 
+		{
+			Search_MaMonHoc(ds->RIGHT, mh);
+		}
+	}
+}
+
+int Search_TenMonHoc(PTR_NODETREE ds, char *mh) {
+	TEN *arr=new TEN;
+	int k=0;
+	Transfer(ds,arr,k);
+	for (int i=0;i<CountNode(ds);i++) {
+	
+			cout << arr[i].tenmh << "\n";
+		
+	}
+//	cout << "khong co";
+	getch();
+}
 
 dsmh Input_Tree (PTR_NODETREE &ds) {
 	dsmh mh;
+	int a=0;
 	char mmh[10], tmh[50], stclt[10], stcth[10];
 	do {
 		XoaManHinh();
+		a=0;
 		cout <<"\nNhap Ma mon hoc: ";
 		fflush(stdin);
 		gets(mmh);
-	} while (strlen(mmh)==0 || atoi(mmh) > 0 || atoi(mmh) < 0 || Find_Space(mmh) == 0);
+		if (Search_MaMonHoc(ds,mmh)) {
+			cout << "\nma mon hoc da co, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (atoi(mmh) > 0 || atoi(mmh) < 0) {
+			cout << "\nma mon hoc khong duoc nhap so nguyen, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (Find_Space(mmh) == 0) {
+			cout << "\nkhong duoc chua khoang trang, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (strlen(mmh)==0) {
+			cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+			a = 1;
+			getch();
+		}
+	} while (a == 1);
 	strcpy(mh.MAMH,strupr(mmh));
 	do {
 		XoaManHinh();
+		a = 0;
 		cout <<"\nNhap ten mon hoc: ";
 		fflush(stdin);
-		gets(tmh);	
-	} while (strlen(tmh)==0 || atoi(tmh) > 0 || atoi(tmh) < 0 );
+		gets(tmh);
+//		if (Search_TenMonHoc(ds,tmh)) {
+//			cout << "\nten mon hoc da co, nhap lai!";
+//			a = 1;
+//			getch();
+//		}
+		if (atoi(tmh) > 0 || atoi(tmh) < 0) {
+			cout << "\nten mon hoc khong duoc nhap so nguyen, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (strlen(tmh)==0) {
+			cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+			a = 1;
+			getch();
+		}	
+	} while (a == 1 );
 	strcpy(mh.TENMH,strupr(Trim(tmh)));
 	do {
 		XoaManHinh();
+		a=0;
 		cout <<"\nNhap so tin chi ly thuyet: ";
 		fflush(stdin);
-		gets(stclt);	
-	} while (strlen(stclt)==0 || NumberOnly(stclt)==0 );
+		gets(stclt);
+		if (strlen(stclt)==0) {
+			cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (Find_Space(stclt) == 0) {
+			cout << "\nkhong duoc chua khoang trang, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (NumberOnly(stclt)==0) {
+			cout << "\nchi duoc phep nhap so nguyen, nhap lai!";
+			a = 1;
+			getch();
+		}
+	} while (a==1);
 	mh.STCLT = atoi(stclt);
 	do {
 		XoaManHinh();
 		cout <<"\nNhap so tin chi thuc hanh: ";
 		fflush(stdin);
-		gets(stcth);	
-	} while (strlen(stcth)==0 || NumberOnly(stcth)==0 );
+		gets(stcth);
+		if (strlen(stcth)==0) {
+			cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (Find_Space(stcth) == 0) {
+			cout << "\nkhong duoc chua khoang trang, nhap lai!";
+			a = 1;
+			getch();
+		}
+		if (NumberOnly(stcth)==0) {
+			cout << "\nchi duoc phep nhap so nguyen, nhap lai!";
+			a = 1;
+			getch();
+		}
+				
+	} while (a==1);
 	mh.STCTH = atoi(stcth);
 	return mh;
 }
@@ -79,7 +179,7 @@ void CreatTree_Dsmh(PTR_NODETREE &ds, dsmh mh) {
 	do{
 		mh = Input_Tree(ds);
 		Insert_Node_Tree(ds,mh);
-		cout << "\nNhap tiep tuc ?";
+		cout << "\nNhap tiep tuc ? 1 : CO - 0 : KHONG";
 		cin >> c;
 	} while (c == 1);
 	
@@ -91,16 +191,6 @@ NODETREE* FindMin(PTR_NODETREE ds)
 	return (ds);
 }
 
-void Find_Node_Temp(PTR_NODETREE &x , PTR_NODETREE &y) {
-	// tim node trai nhat cua cay ben phai
-	if (y->LEFT != NULL) {
-		Find_Node_Temp(x,y->LEFT);
-	} else {
-		x->monhoc = y->monhoc;
-		x = y;
-		y = y->RIGHT;
-	}
-}
 
 void RemoveTree (PTR_NODETREE &ds, dsmh mh) {
 	
@@ -114,7 +204,7 @@ void RemoveTree (PTR_NODETREE &ds, dsmh mh) {
 		{
 			RemoveTree(ds->LEFT, mh); // duyet sang nhanh trai cua cay
 		}
-		else if (stricmp(mh.MAMH,ds->monhoc.MAMH) > 0 )
+		else if (stricmp(mh.MAMH,ds->monhoc.MAMH) >  0 )
 		{
 			RemoveTree(ds->RIGHT, mh); // duyet sang nhanh phai cua cây 
 		}
@@ -139,7 +229,6 @@ void RemoveTree (PTR_NODETREE &ds, dsmh mh) {
 			}
 			else // node co hai cay con
 			{
-//				Find_Node_Temp(x,ds->RIGHT);
 				x = FindMin(ds->RIGHT);
 				ds->monhoc = x->monhoc;
 				ds = x;
@@ -155,8 +244,21 @@ void Inorder(PTR_NODETREE p) { // duyet theo left node right
 	if (p!=NULL) {
 		Inorder (p->LEFT);
 		Show_Tree(p);
+		cout << "=========================";
 		Inorder (p->RIGHT);
 	}
+}
+
+
+
+int Transfer(PTR_NODETREE p,TEN *arr,int k) {  // ham tao mang chua cac ten mon hoc
+	if (p == NULL) {
+		return FALSE;
+	}
+	Transfer (p->LEFT,arr,k);
+	strcpy(arr[k++].tenmh,p->monhoc.TENMH);
+	Transfer (p->RIGHT,arr,k);
+	
 }
 
 void Preorder(PTR_NODETREE p) { // duyet theo node left right
@@ -175,9 +277,22 @@ void Posorder(PTR_NODETREE p) { // duyet theo left right node
 	}
 }
 
+int CountNode(PTR_NODETREE &t)
+{
+	int c = 1;             // ban than node duoc dem la 1;
+	if (t == NULL)
+		return 0;
+	else
+	{
+		c += CountNode(t->LEFT);
+		c += CountNode(t->RIGHT);
+		return c;
+	}
+}
+
 void DocFile_MH(PTR_NODETREE &ds) {
 	dsmh mh;
-	char n[2];
+	char a[2];
 	fstream filein("monhoc.txt",ios_base::in);
 	if (filein.fail() == TRUE) {
 		cout << "\nFile khong ton tai.";
@@ -185,7 +300,7 @@ void DocFile_MH(PTR_NODETREE &ds) {
 		return;
 	} 
 	while (!filein.eof()) {
-		filein.getline(n,2);
+		filein.getline(a,2);
 		filein.getline(mh.MAMH,10);
 		filein.getline(mh.TENMH,50);
 		filein >> mh.STCLT;
@@ -195,4 +310,31 @@ void DocFile_MH(PTR_NODETREE &ds) {
         	break;
     	}
 	}
+}
+
+void GhiFile_MH(PTR_NODETREE &ds) {
+	fstream fileout("monhoc.txt",ios_base::out);
+	const int STACKSIZE = 100;
+	PTR_NODETREE Stack[STACKSIZE];
+	int sp = -1;
+	do 
+	{
+		
+		while(ds != NULL)
+		{
+			Stack[++sp] = ds;
+			ds = ds -> LEFT;
+		}
+		if(sp != -1)
+		{
+			ds = Stack[sp--];
+			fileout << "\n";
+			fileout << ds->monhoc.MAMH << "\n";
+			fileout << ds->monhoc.TENMH << "\n";
+			fileout << ds->monhoc.STCLT << "\n";
+			fileout << ds->monhoc.STCTH;
+			ds = ds -> RIGHT;
+		} else break;
+	} while (1);	
+
 }

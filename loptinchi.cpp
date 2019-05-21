@@ -35,6 +35,7 @@ int Search_MALOPTC (NODETT &ds, unsigned int temp) { // ham kiem tra ma lop tin 
 int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 	unsigned int temp;
 	char MH[10],NK[10],HK[10],SVM[200];
+	int a=0;
 	fflush(stdin);
 	do {
 		ds.nodett[ds.n] = new dsltc;
@@ -65,24 +66,57 @@ int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 		
 		do {
 			XoaManHinh();
+			a=0;
 			cout << "\nNhap Nien Khoa: ";
 			fflush(stdin);
 			gets(NK);
-		} while (strlen(NK)==0 || NumberOnly(NK) == 0);
+			if (NumberOnly(NK) == 0) {
+				a=1;
+				cout << "\nchi duoc nhap so nguyen, nhap lai!";
+				getch();
+			}
+			if (strlen(NK)==0) {
+				a=1;
+				cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+				getch();
+			}
+		} while (a == 1);
 		ds.nodett[ds.n]->NIENKHOA = atoi(NK);
 		do {
 			XoaManHinh();
+			a=0;
 			cout << "\nNhap hoc ki bat dau: ";
 			fflush(stdin);
 			gets(HK);
-		} while (strlen(HK)==0 || NumberOnly(HK) == 0);
+			if (NumberOnly(HK) == 0) {
+				a=1;
+				cout << "\nchi duoc nhap so nguyen, nhap lai!";
+				getch();
+			}
+			if (strlen(HK)==0) {
+				a=1;
+				cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+				getch();
+			}
+		} while (a==1);
 		ds.nodett[ds.n]->HOCKY = atoi(HK);
 		do {
 			XoaManHinh();
+			a=0;
 			cout << "\nNhap So Sinh Vien Toi Da: ";
 			fflush(stdin);
 			gets(SVM);
-		} while (strlen(SVM)==0 || NumberOnly(SVM) == 0);
+			if (NumberOnly(SVM) == 0) {
+				a=1;
+				cout << "\nchi duoc nhap so nguyen, nhap lai!";
+				getch();
+			}
+			if (strlen(SVM)==0) {
+				a=1;
+				cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+				getch();
+			}
+		} while (a==1);
 		ds.nodett[ds.n]->SVMAX = atoi (SVM);
 		do {		
 				temp = Random();		

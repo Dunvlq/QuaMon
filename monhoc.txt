@@ -1,0 +1,29 @@
+
+A
+CAU TRUC
+1
+1
+B
+BABY
+2
+2
+C
+cho
+3
+3
+D
+LY THUYET
+3
+3
+E
+TOAN ROI RAC
+3
+2
+F
+CON MEO
+1
+2
+G
+HOC GI BAY GIO
+2
+3
