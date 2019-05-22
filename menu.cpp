@@ -552,3 +552,98 @@ void Menu()
 		TextColor(DEN);
 	}
 }
+
+// phan cho mh
+ 
+void Draw_MH(PTR_NODETREE ds) {
+	XoaManHinh();
+	gotoxy(72,2);
+	cout<<"DANH SACH CAC MON HOC";
+	gotoxy(6,4);
+	cout << "STT";
+	for (int i = 4; i < HEIGHT -1; i++)
+	{
+		gotoxy(12, i);
+		cout << "|";
+	}
+	gotoxy(22,4);
+	cout << "Ma MH";
+	for (int i = 4; i < HEIGHT -1; i++)
+	{
+		gotoxy(37, i);
+		cout << "|";
+	}
+	gotoxy(85,4);
+	cout << "Ten MH";
+	for (int i = 4; i < HEIGHT -1; i++)
+	{
+		gotoxy(138, i);
+		cout << "|";
+	}
+	gotoxy(142,4); 
+	cout << "So TCLT";
+	for (int i = 4; i < HEIGHT -1; i++)
+	{
+		gotoxy(152, i);
+		cout << "|";
+	}
+	gotoxy(156,4);
+	cout << "So TCTH";
+	for (int i=1;i<=CountNode(ds);i++) {
+		gotoxy(6,i+4);
+		cout << i;
+	}
+	
+	// ve duong ben trai
+	TextColor(LAM);
+	for (int i = 1; i < HEIGHT; i++)
+	{
+		gotoxy(1, i);
+		cout << "//"; //char(221);
+	}
+	// ve duong ben phai
+	for (int i = 0; i < HEIGHT-1; i++)
+	{
+		gotoxy(WIDTH-2, i+1);
+		cout << "//";//char(221);
+	}
+	// ve duong tren
+	for (int i = 1; i < WIDTH; i++)
+	{
+		gotoxy(i, 0);
+		cout << char(219);
+	}
+	// ve duong tren phu 1
+	for (int i = 1; i < WIDTH ; i++)
+	{
+		gotoxy(i , 1);
+		cout << char(205);
+	}
+	// ve duong tren phu 2
+	for (int i = 1; i < WIDTH ; i++)
+	{
+		gotoxy(i , 3);
+		cout << char(205);
+	}
+	
+	// ve duong duoi phu 1
+	for (int i = 1; i < WIDTH; i++)
+	{
+		gotoxy(i , HEIGHT - 2);
+		cout << char(205);
+	}
+	// ve duong duoi phu 2
+	for (int i = 1; i < WIDTH; i++)
+	{
+		gotoxy(i, HEIGHT);
+		cout << char(205);
+	}	
+	// ve duong duoi chinh
+	for (int i = 1; i < WIDTH; i++)
+	{
+		gotoxy(i, HEIGHT+1);
+		cout << char(219);
+	}	
+	
+	TextColor(DEN);
+}

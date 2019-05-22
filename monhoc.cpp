@@ -30,37 +30,37 @@ void Insert_Node_Tree(PTR_NODETREE &ds, dsmh mh) {
 	}
 } 
 
-int Search_MaMonHoc(PTR_NODETREE ds, char *mh) {
+int Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
 	if (ds==NULL) {
 		return FALSE;
 	} 
 	else {
-		if (stricmp(mh,ds->monhoc.MAMH) == 0)
+		if (stricmp(Trim(mh),ds->monhoc.MAMH) == 0)
 		{
 			return TRUE;
 		}
-		else if (stricmp(mh,ds->monhoc.MAMH) < 0)
+		else if (stricmp(Trim(mh),ds->monhoc.MAMH) < 0)
 		{
 			Search_MaMonHoc(ds->LEFT, mh);
 		}
-		else if (stricmp(mh,ds->monhoc.MAMH) > 0 ) 
+		else if (stricmp(Trim(mh),ds->monhoc.MAMH) > 0 ) 
 		{
 			Search_MaMonHoc(ds->RIGHT, mh);
 		}
 	}
 }
 
-int Search_TenMonHoc(PTR_NODETREE ds, char *mh) {
-	TEN *arr=new TEN;
+int Search_TenMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo ten mon hoc
+	dsmh *arr=new dsmh;
 	int k=0;
 	Transfer(ds,arr,k);
 	for (int i=0;i<CountNode(ds);i++) {
-	
-			cout << arr[i].tenmh << "\n";
-		
+		if(stricmp(mh,arr[i].TENMH)==0){
+			return TRUE;
+		}
 	}
-//	cout << "khong co";
-	getch();
+	return FALSE;
+	
 }
 
 dsmh Input_Tree (PTR_NODETREE &ds) {
@@ -101,11 +101,11 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 		cout <<"\nNhap ten mon hoc: ";
 		fflush(stdin);
 		gets(tmh);
-//		if (Search_TenMonHoc(ds,tmh)) {
-//			cout << "\nten mon hoc da co, nhap lai!";
-//			a = 1;
-//			getch();
-//		}
+		if (Search_TenMonHoc(ds,Trim(tmh))) {
+			cout << "\nten mon hoc da co, nhap lai!";
+			a = 1;
+			getch();
+		}
 		if (atoi(tmh) > 0 || atoi(tmh) < 0) {
 			cout << "\nten mon hoc khong duoc nhap so nguyen, nhap lai!";
 			a = 1;
@@ -165,13 +165,6 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 	} while (a==1);
 	mh.STCTH = atoi(stcth);
 	return mh;
-}
-
-void Show_Tree (PTR_NODETREE ds) {
-	cout << "\nMa mon hoc : "<< ds->monhoc.MAMH;
-	cout << "\nTen mon hoc: "<< ds->monhoc.TENMH;
-	cout << "\nSo tin chi ly thuyet: "<< ds->monhoc.STCLT;
-	cout << "\nSo tin chi thuc hanh: "<< ds->monhoc.STCTH << endl;
 }
 
 void CreatTree_Dsmh(PTR_NODETREE &ds, dsmh mh) {
@@ -240,42 +233,65 @@ void RemoveTree (PTR_NODETREE &ds, dsmh mh) {
 	}
 }
 
-void Inorder(PTR_NODETREE p) { // duyet theo left node right
-	if (p!=NULL) {
-		Inorder (p->LEFT);
-		Show_Tree(p);
-		cout << "=========================";
-		Inorder (p->RIGHT);
+void Show_Tree (PTR_NODETREE ds,dsmh *arr) {
+	int k=0;
+	Transfer(ds,arr,k);
+	for (int i=0;i<CountNode(ds);i++) {
+		gotoxy(22,i+5);
+		cout << arr[i].MAMH;
+	}
+	for (int i=0;i<CountNode(ds);i++) {
+		gotoxy(45,i+5);
+		cout << arr[i].TENMH;
+	}
+	for (int i=0;i<CountNode(ds);i++) {
+		gotoxy(145,i+5);
+		cout << arr[i].STCLT;
+	}
+	for (int i=0;i<CountNode(ds);i++) {
+		gotoxy(159,i+5);
+		cout << arr[i].STCTH;
 	}
 }
 
+//void Inorder(PTR_NODETREE p) { // duyet theo left node right
+//	if (p!=NULL) {
+//		Inorder (p->LEFT);
+//		Show_Tree(p);
+//		Inorder (p->RIGHT);
+//	}
+//}
 
 
-int Transfer(PTR_NODETREE p,TEN *arr,int k) {  // ham tao mang chua cac ten mon hoc
+
+int Transfer(PTR_NODETREE p,dsmh *arr,int k) {  // ham tao mang chua cac node cua tree
 	if (p == NULL) {
 		return FALSE;
 	}
 	Transfer (p->LEFT,arr,k);
-	strcpy(arr[k++].tenmh,p->monhoc.TENMH);
+	strcpy(arr[k].TENMH,p->monhoc.TENMH);
+	strcpy(arr[k].MAMH,p->monhoc.MAMH);
+	arr[k].STCLT=p->monhoc.STCLT;
+	arr[k++].STCTH=p->monhoc.STCTH;
 	Transfer (p->RIGHT,arr,k);
 	
 }
 
-void Preorder(PTR_NODETREE p) { // duyet theo node left right
-	if (p!=NULL) {
-		Show_Tree(p);
-		Preorder (p->LEFT);
-		Preorder (p->RIGHT);
-	}
-}
-
-void Posorder(PTR_NODETREE p) { // duyet theo left right node
-	if (p!=NULL) {
-		Posorder (p->LEFT);
-		Posorder (p->RIGHT);
-		Show_Tree(p);
-	}
-}
+//void Preorder(PTR_NODETREE p) { // duyet theo node left right
+//	if (p!=NULL) {
+//		Show_Tree(p);
+//		Preorder (p->LEFT);
+//		Preorder (p->RIGHT);
+//	}
+//}
+//
+//void Posorder(PTR_NODETREE p) { // duyet theo left right node
+//	if (p!=NULL) {
+//		Posorder (p->LEFT);
+//		Posorder (p->RIGHT);
+//		Show_Tree(p);
+//	}
+//}
 
 int CountNode(PTR_NODETREE &t)
 {

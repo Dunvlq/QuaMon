@@ -1,3 +1,4 @@
+#pragma once
 #include "loptinchi.h"
 
 #define ENTER 13
@@ -37,3 +38,7 @@ void Print_Item_MH();
 void Print_Item_BD();
 void ReMenu();
 void Menu();
+
+//phan cho mh
+
+void Draw_MH(PTR_NODETREE ds);

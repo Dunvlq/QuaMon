@@ -6,28 +6,28 @@ using namespace std;
 
 
 int main () {
-//	TextColor(128);
-//	resizeConsole(1920,1080); 
-	
+	TextColor(128);
+	resizeConsole(1920,1080); 
 	
 	PTR_NODETREE ds;
-	TEN *arr=new TEN;
-	char *t;
-	dsmh mh;
+	dsmh *mh=new dsmh;
 	InitializeTree(ds);
 	DocFile_MH(ds);
-	Inorder(ds);
-	while (1) {
-		XoaManHinh();
-		Inorder(ds);
-//		cout << "\nNhap ten:";
-//		fflush(stdin);
-//		gets(t);
-		Search_TenMonHoc(ds,t);
-	}
+//	Menu();
+//	Inorder(ds);
+//	DrawScreen();
+	Draw_MH(ds);
+	Show_Tree(ds,mh);
+	getch();
+	XoaManHinh();
+//	CreatTree_Dsmh(ds,mh);
+//	int i=0;
+//	dsmh mh;
+//	InitializeTree(ds);
+	
 	
 //	getch();
-//	CreatTree_Dsmh(ds,mh);
+//	Inorder(ds);
 //	GhiFile_MH(ds);
 // ================================
 //	NODETT ds;
@@ -36,6 +36,5 @@ int main () {
 //	getch();
 //	Create_LopTinChi(ds);
 //	Show_Data_LTC(ds);
-	delete arr;
-	return 0;
+
 }
