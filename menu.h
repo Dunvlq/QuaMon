@@ -9,6 +9,8 @@
 #define LEFT 75
 #define RIGHT 77
 #define SPACE 32
+#define PGUP 73
+#define PGDN 81
 
 #define WIDTH 168
 #define HEIGHT 40
@@ -31,14 +33,22 @@
 #define TRANG 143
 #define HIGHTLIGHT 176
 
+void DrawBox(int x, int y, int width, int height);
 void DrawScreen();
-void Print_Item_LTC();
-void Print_Item_SV();
-void Print_Item_MH();
-void Print_Item_BD();
 void ReMenu();
 void Menu();
 
 //phan cho mh
-
-void Draw_MH(PTR_NODETREE ds);
+void Draw_MH(PTR_NODETREE ds,ARR arr[]);
+void Print_Item_MH();
+void Draw_Item_MH();
+// phan cho ltc
+void Draw_LTC(NODETT ds);
+void Print_Item_LTC();
+void Draw_Item_LTC();
+// phan cho sv
+void Print_Item_SV();
+void Draw_Item_SV();
+// phan cho bd
+void Print_Item_BD();
+void Draw_Item_BD();

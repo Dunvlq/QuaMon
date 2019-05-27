@@ -6,12 +6,12 @@ void InitializeTree(PTR_NODETREE &root) {
 	root = NULL;
 }
 
-int EmptyTree (PTR_NODETREE ds) {
-	if (ds == NULL) {
-		return TRUE;
-	} else {
-		return FALSE;
-	}
+bool Isempty (PTR_NODETREE ds) {
+	return ds = NULL;
+}
+
+int Compare(dsmh x,dsmh y) {
+	return stricmp(x.MAMH,y.MAMH);
 }
 
 void Insert_Node_Tree(PTR_NODETREE &ds, dsmh mh) {
@@ -28,7 +28,22 @@ void Insert_Node_Tree(PTR_NODETREE &ds, dsmh mh) {
 			Insert_Node_Tree (ds->RIGHT,mh);
 		}
 	}
-} 
+}
+
+void Insert_Node_Tree_From_File(PTR_NODETREE &ds, dsmh mh) {
+	if (ds==NULL) {
+		ds = new NODETREE;
+		ds->monhoc = mh;
+		ds->LEFT = NULL;
+		ds->RIGHT = NULL;
+	} else {
+		if (Compare(ds->monhoc,mh) > 0) {
+			Insert_Node_Tree (ds->LEFT,mh);
+		}else if (Compare(ds->monhoc,mh) < 0) {
+			Insert_Node_Tree (ds->RIGHT,mh);
+		}
+	}
+}
 
 int Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
 	if (ds==NULL) {
@@ -51,11 +66,11 @@ int Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
 }
 
 int Search_TenMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo ten mon hoc
-	dsmh *arr=new dsmh;
-	int k=0;
-	Transfer(ds,arr,k);
+	TEMP a[CountNode(ds) + 1];
+	int k=-1;
+	Transfer_Name(ds,a,k);
 	for (int i=0;i<CountNode(ds);i++) {
-		if(stricmp(mh,arr[i].TENMH)==0){
+		if(stricmp(mh,a[i].ten)==0){
 			return TRUE;
 		}
 	}
@@ -78,7 +93,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 			a = 1;
 			getch();
 		}
-		if (atoi(mmh) > 0 || atoi(mmh) < 0) {
+		if (NumberOnly(mmh) == TRUE) {
 			cout << "\nma mon hoc khong duoc nhap so nguyen, nhap lai!";
 			a = 1;
 			getch();
@@ -106,7 +121,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 			a = 1;
 			getch();
 		}
-		if (atoi(tmh) > 0 || atoi(tmh) < 0) {
+		if (NumberOnly(tmh) == TRUE) {
 			cout << "\nten mon hoc khong duoc nhap so nguyen, nhap lai!";
 			a = 1;
 			getch();
@@ -117,6 +132,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 			getch();
 		}	
 	} while (a == 1 );
+
 	strcpy(mh.TENMH,strupr(Trim(tmh)));
 	do {
 		XoaManHinh();
@@ -143,6 +159,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 	mh.STCLT = atoi(stclt);
 	do {
 		XoaManHinh();
+		a=0;
 		cout <<"\nNhap so tin chi thuc hanh: ";
 		fflush(stdin);
 		gets(stcth);
@@ -233,27 +250,6 @@ void RemoveTree (PTR_NODETREE &ds, dsmh mh) {
 	}
 }
 
-void Show_Tree (PTR_NODETREE ds,dsmh *arr) {
-	int k=0;
-	Transfer(ds,arr,k);
-	for (int i=0;i<CountNode(ds);i++) {
-		gotoxy(22,i+5);
-		cout << arr[i].MAMH;
-	}
-	for (int i=0;i<CountNode(ds);i++) {
-		gotoxy(45,i+5);
-		cout << arr[i].TENMH;
-	}
-	for (int i=0;i<CountNode(ds);i++) {
-		gotoxy(145,i+5);
-		cout << arr[i].STCLT;
-	}
-	for (int i=0;i<CountNode(ds);i++) {
-		gotoxy(159,i+5);
-		cout << arr[i].STCTH;
-	}
-}
-
 //void Inorder(PTR_NODETREE p) { // duyet theo left node right
 //	if (p!=NULL) {
 //		Inorder (p->LEFT);
@@ -262,36 +258,51 @@ void Show_Tree (PTR_NODETREE ds,dsmh *arr) {
 //	}
 //}
 
+void Show_Tree (PTR_NODETREE ds,ARR arr[],int k) {
+	
+	int j=0;
+	Transfer(ds,arr,k);
+	for (k;k<=CountNode(ds);k++) {	
+		gotoxy(6,j+5);
+		cout << k+1;
+		gotoxy(22,j+5);
+		cout << arr[k+1].MAMH;
+		gotoxy(45,j+5);
+		cout << arr[k+1].TENMH;
+		gotoxy(145,j+5);
+		cout << arr[k+1].STCLT;
+		gotoxy(159,j+5);
+		cout << arr[k+1].STCTH;
+		j++;
+		if (j==33) {
+			break; 
+		}
+	}
+	getch();
+}
 
-
-int Transfer(PTR_NODETREE p,dsmh *arr,int k) {  // ham tao mang chua cac node cua tree
+int Transfer_Name(PTR_NODETREE p,TEMP arr[],int k) {  // ham tao mang chua cac node cua tree
 	if (p == NULL) {
 		return FALSE;
 	}
-	Transfer (p->LEFT,arr,k);
-	strcpy(arr[k].TENMH,p->monhoc.TENMH);
-	strcpy(arr[k].MAMH,p->monhoc.MAMH);
-	arr[k].STCLT=p->monhoc.STCLT;
-	arr[k++].STCTH=p->monhoc.STCTH;
-	Transfer (p->RIGHT,arr,k);
+	Transfer_Name (p->LEFT,arr,k++);
+	strcpy(arr[k].ten,p->monhoc.TENMH);
+	Transfer_Name (p->RIGHT,arr,k++);
 	
 }
 
-//void Preorder(PTR_NODETREE p) { // duyet theo node left right
-//	if (p!=NULL) {
-//		Show_Tree(p);
-//		Preorder (p->LEFT);
-//		Preorder (p->RIGHT);
-//	}
-//}
-//
-//void Posorder(PTR_NODETREE p) { // duyet theo left right node
-//	if (p!=NULL) {
-//		Posorder (p->LEFT);
-//		Posorder (p->RIGHT);
-//		Show_Tree(p);
-//	}
-//}
+int Transfer(PTR_NODETREE p,ARR arr[],int k) {  // ham tao mang chua cac node cua tree
+	if (p == NULL) {
+		return FALSE;
+	}
+	Transfer (p->LEFT,arr,k++);
+	strcpy(arr[k].MAMH,p->monhoc.MAMH);
+	strcpy(arr[k].TENMH,p->monhoc.TENMH);
+	arr[k].STCLT = p->monhoc.STCLT;
+	arr[k].STCTH = p->monhoc.STCTH;
+	Transfer (p->RIGHT,arr,k++);
+	
+}
 
 int CountNode(PTR_NODETREE &t)
 {
@@ -308,15 +319,15 @@ int CountNode(PTR_NODETREE &t)
 
 void DocFile_MH(PTR_NODETREE &ds) {
 	dsmh mh;
-	char a[2];
-	fstream filein("monhoc.txt",ios_base::in);
+	string temp;
+	fstream filein;
+	filein.open("monhoc.txt",ios::in);
 	if (filein.fail() == TRUE) {
 		cout << "\nFile khong ton tai.";
 		getch();
-		return;
 	} 
 	while (!filein.eof()) {
-		filein.getline(a,2);
+		getline(filein,temp);
 		filein.getline(mh.MAMH,10);
 		filein.getline(mh.TENMH,50);
 		filein >> mh.STCLT;
@@ -326,6 +337,7 @@ void DocFile_MH(PTR_NODETREE &ds) {
         	break;
     	}
 	}
+	filein.close();
 }
 
 void GhiFile_MH(PTR_NODETREE &ds) {

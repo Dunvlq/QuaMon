@@ -1,4 +1,5 @@
 #include "loptinchi.h"
+#include "menu.h"
 using namespace std;
 
 int Emptytt (NODETT &ds) {
@@ -40,9 +41,14 @@ int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 	do {
 		ds.nodett[ds.n] = new dsltc;
 		XoaManHinh();
-		char buff [33];		
-		cout << "\nNhap Ma Mon Hoc (nhap q hoac 0 de thoat): ";
+		DrawScreen();
+		char buff [33];	
+		DrawBox(63,19,43,2);
+		DrawBox(63,22,43,2);
+		gotoxy(65,19);
+		cout << "Nhap Ma Mon Hoc (nhap q hoac 0 de thoat):";
 		fflush(stdin);
+		gotoxy(65,20);
 		gets(MH);
 		if (stricmp(MH,"q") == 0) {
 			break;
@@ -51,14 +57,16 @@ int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 			break;
 		}
 		if (strlen(MH)==0 || atoi(MH) > 0 || atoi(MH) < 0 || Find_Space(MH) == 0) {
-			cout<< "\nKhong hop le, nhap lai";
+			gotoxy(65,23);
+			cout<< "Khong hop le, nhap lai";
 			delete ds.nodett[ds.n];
 			ds.n--;
 			getch();
 			continue;
 		}
 		if (Search_MAMONHOC(ds,MH) == 1) {
-			cout << "\nMa mon hoc da co, vui long nhap lai: ";
+			gotoxy(65,23);
+			cout << "Ma mon hoc da co, vui long nhap lai:";
 			getch();
 			continue;
 		}
@@ -66,54 +74,75 @@ int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 		
 		do {
 			XoaManHinh();
+			DrawScreen();
+			DrawBox(63,19,43,2);
+			DrawBox(63,22,43,2);
+			gotoxy(65,19);
 			a=0;
-			cout << "\nNhap Nien Khoa: ";
+			cout << "Nhap Nien Khoa: ";
 			fflush(stdin);
+			gotoxy(65,20);
 			gets(NK);
 			if (NumberOnly(NK) == 0) {
 				a=1;
-				cout << "\nchi duoc nhap so nguyen, nhap lai!";
+				gotoxy(65,23);
+				cout << "chi duoc nhap so nguyen, nhap lai!";
 				getch();
 			}
 			if (strlen(NK)==0) {
 				a=1;
-				cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+				gotoxy(65,23);
+				cout << "khong duoc nhap chuoi rong, nhap lai!";
 				getch();
 			}
 		} while (a == 1);
 		ds.nodett[ds.n]->NIENKHOA = atoi(NK);
 		do {
 			XoaManHinh();
+			DrawScreen();
+			DrawBox(63,19,43,2);
+			DrawBox(63,22,43,2);
+			gotoxy(65,19);
 			a=0;
-			cout << "\nNhap hoc ki bat dau: ";
+			cout << "Nhap hoc ki bat dau: ";
 			fflush(stdin);
+			gotoxy(65,20);
 			gets(HK);
 			if (NumberOnly(HK) == 0) {
 				a=1;
-				cout << "\nchi duoc nhap so nguyen, nhap lai!";
+				gotoxy(65,23);
+				cout << "chi duoc nhap so nguyen, nhap lai!";
 				getch();
 			}
 			if (strlen(HK)==0) {
 				a=1;
-				cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+				gotoxy(65,23);
+				cout << "khong duoc nhap chuoi rong, nhap lai!";
 				getch();
 			}
 		} while (a==1);
 		ds.nodett[ds.n]->HOCKY = atoi(HK);
 		do {
 			XoaManHinh();
+			DrawScreen();
+			DrawBox(63,19,43,2);
+			DrawBox(63,22,43,2);
+			gotoxy(65,19);
 			a=0;
-			cout << "\nNhap So Sinh Vien Toi Da: ";
+			cout << "Nhap So Sinh Vien Toi Da:";
 			fflush(stdin);
+			gotoxy(65,20);
 			gets(SVM);
 			if (NumberOnly(SVM) == 0) {
 				a=1;
-				cout << "\nchi duoc nhap so nguyen, nhap lai!";
+				gotoxy(65,23);
+				cout << "chi duoc nhap so nguyen, nhap lai!";
 				getch();
 			}
 			if (strlen(SVM)==0) {
 				a=1;
-				cout << "\nkhong duoc nhap chuoi rong, nhap lai!";
+				gotoxy(65,23);
+				cout << "khong duoc nhap chuoi rong, nhap lai!";
 				getch();
 			}
 		} while (a==1);
@@ -126,55 +155,26 @@ int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 	} while (ds.n <= MAX);
 }
 
-void Show_Data_LTC(NODETT &ds) { // ham show du lieu
-	XoaManHinh();
-	gotoxy(45,1);
-	cout<<"DANH SACH CAC LOP TIN CHI";
-	gotoxy(14,3);
-	cout << "STT ";
-	gotoxy(26,3);
-	cout << "MALOPTC";
-	gotoxy(42,3); 
-	cout << "MA MH"; 
-	gotoxy(56,3);
-	cout << "NIEN KHOA"; 
-	gotoxy(74,3);
-	cout << "HOC KY";
-	gotoxy(89,3);  
-	cout << "SO SVMAX";
-	for (int i=0;i<=88;i++) { // ve line phia tren
-		gotoxy(i+11,0);
-		cout <<"=";
-	}
-	for (int i=0;i<=88;i++) { //ve line phia duoi
-		gotoxy(i+11,ds.n + 5);
-		cout <<"=";
-	}
-	for (int i=0;i<ds.n + 4;i++) { // ve line ben trai
-		gotoxy(11,i+1);
-		cout <<"//"<<"\n";
-	}
-	for (int i=0;i<ds.n + 4;i++) { // ve line ben phai
-		gotoxy(98,i+1);
-		cout <<"//"<<"\n";
-	}
-	for (int i=0;i<ds.n;i++) { // in ra data
-		gotoxy(15,i+4);
+void Show_Data_LTC(NODETT &ds,int i) { // ham show du lieu
+	int j=0;
+	for (i;i<ds.n;i++) { // in ra data
+		gotoxy(14,j+5);
 		cout << i+1;
-		gotoxy(28,i+4);
+		gotoxy(41,j+5);
 		cout << ds.nodett[i]->MALOPTC;
-		gotoxy(42,i+4);
+		gotoxy(67,j+5);
 		cout << ds.nodett[i]->MAMH;
-		gotoxy(58,i+4);
+		gotoxy(96,j+5);
 		cout << ds.nodett[i]->NIENKHOA;
-		gotoxy(76,i+4);
+		gotoxy(125,j+5);
 		cout << ds.nodett[i]->HOCKY;
-		gotoxy(91,i+4);
+		gotoxy(152,j+5);
 		cout << ds.nodett[i]->SVMAX;
-		cout << endl;
+		j++;
+		if (j==33) {
+			break; 
+		}
 	}
-	gotoxy(0,ds.n + 6);
-	cout << " ";
 }
 
 void DocFile_LTC (NODETT &ds) { // load du lieu tu file vao bo nho
@@ -202,7 +202,7 @@ void DocFile_LTC (NODETT &ds) { // load du lieu tu file vao bo nho
 }
 
 void GhiFile_LTC(NODETT &ds) { // ghi du lieu tu bo nho vao file 
-	ofstream fileout("loptinchi.txt",ios_base::out);
+	ofstream fileout("loptinchi.txt",ios::out);
 	for (int i=0;i<ds.n;i++) {
 		fileout << "\n";
 		fileout << ds.nodett[i]->MALOPTC << "\n";
@@ -236,10 +236,10 @@ int TraverseINT (NODETT &ds,unsigned int temp) { // tra ve vi tri temp trong dan
 int TraverseCHAR (NODETT &ds,char MAMONHOC[10]) { // tra ve vi tri temp trong danh sach
 	for (int i=0;i<ds.n;i++) {
 		if (stricmp(ds.nodett[i]->MAMH,MAMONHOC)==0) {
-			return TRUE;
+			return i+1;
 		}
 	}
-	return FALSE;
+	return 0;
 }
 
 void Delete_LTC_MALOPTC(NODETT &ds, unsigned int temp) { //xoa nodes theo ma lop tin chi trong bo nho
@@ -275,8 +275,14 @@ void Delete_LTC_MAMONHOC(NODETT &ds, char MAMONHOC[10]) { //xoa nodes theo ma lo
 			ds.nodett[a-1] = ds.nodett[a];
 		}
 		ds.n--;
+
+		gotoxy(79,23);
+		cout << "Thanh cong!";
+		getch();
 	} else {
-		cout << "\nKhong Tim Thay Ma Lop Tin Chi, nhap lai";
+
+		gotoxy(70,23);
+		cout << "Khong Tim Thay Ma Lop Tin Chi";
 		getch();
 	}
 	

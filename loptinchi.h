@@ -32,7 +32,7 @@ int Search_SVMAX(NODETT &ds, unsigned int temp);
 int TraverseINT (NODETT &ds,unsigned int temp);
 int TraverseCHAR (NODETT &ds,char temp[10]);
 int Create_LopTinChi (NODETT &ds); // ham tao lop tin chi
-void Show_Data_LTC(NODETT &ds); // ham xuat danh sach lop tin chi
+void Show_Data_LTC(NODETT &ds,int i); // ham xuat danh sach lop tin chi
 void DocFile_LTC(NODETT &ds);
 void GhiFile_LTC(NODETT &ds);
 void Delete_LTC_MALOPTC(NODETT &ds, unsigned int temp);
