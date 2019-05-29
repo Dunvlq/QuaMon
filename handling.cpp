@@ -45,6 +45,175 @@ int NumberOnly (char *a) {
 	return TRUE;
 }
 
+void InputString(char *variable, int max)
+{
+	int MaxNhap = max;
+	rewind(stdin);
+	InputSTR Nhap;	
+	Nhap.n = 0;
+	while(true)
+	{
+		if(kbhit())
+		{
+			char c = getch();
+			if(!kbhit() && !(!((int)c >= 65 && (int)c <= 90) && !((int)c >= 97 && (int)c <= 122) && !((int)c>=48 && (int)c<=57)) && Nhap.n < MaxNhap)
+			{
+				if (Nhap.n == 0 && (int)c>=48 && (int)c<=57) {
+					continue;
+				}
+				c = toupper(c);
+				Nhap.Key[Nhap.n] = new char;
+				cout << c;
+				*Nhap.Key[Nhap.n] = c;
+				Nhap.n++;
+			}
+			
+			if(c == '\r')
+			{
+				if(Nhap.n > 0 && *Nhap.Key[Nhap.n - 1] == ' ')
+				{
+					gotoxy(getx() - 1, gety());
+					cout << " ";
+					gotoxy(getx() - 1, gety());
+					if(Nhap.n > 0)
+					{
+						Nhap.n--;
+					}
+				}	
+				break;
+			}
+			if(c == BACKSPACE && Nhap.n > 0)
+			{
+				gotoxy(getx() - 1, gety());
+				cout << " ";
+				gotoxy(getx() - 1, gety());
+				Nhap.n--;
+			}
+		}
+	}
+	for(int i = 0; i < Nhap.n; i++)
+	{
+		variable[i] = *Nhap.Key[i];
+	}
+	variable[Nhap.n] = '\0';
+
+}
+
+void InputNumber(char *variable, int max)
+{
+	int MaxNhap = max;
+	if(MaxNhap == 0) 
+		MaxNhap = MAX_INPUT;
+	rewind(stdin);
+	InputSTR Nhap;	
+	Nhap.n = 0;
+	while(true)
+	{
+		if(kbhit())
+		{
+			char c = getch();
+			if(!kbhit() && !(!((int)c>=48 && (int)c<=57)) && Nhap.n < MaxNhap)
+			{
+				c = toupper(c);
+				Nhap.Key[Nhap.n] = new char;
+				cout << c;
+				*Nhap.Key[Nhap.n] = c;
+				Nhap.n++;
+				
+			}
+			if(c == '\r')
+			{
+				if(Nhap.n > 0 && *Nhap.Key[Nhap.n - 1] == ' ')
+				{
+					gotoxy(getx() - 1, gety());
+					cout << " ";
+					gotoxy(getx() - 1, gety());
+					if(Nhap.n > 0)
+					{
+						Nhap.n--;
+					}
+				}	
+				break;
+			}
+			if(c == BACKSPACE && Nhap.n > 0)
+			{
+				gotoxy(getx() - 1, gety());
+				cout << " ";
+				gotoxy(getx() - 1, gety());
+				Nhap.n--;
+			}
+		}		
+	}
+	for(int i = 0; i < Nhap.n; i++)
+	{
+		variable[i] = *Nhap.Key[i];
+	}
+	variable[Nhap.n] = '\0';
+
+}
+
+void InputStringSpace(char *variable, int max)
+{
+	int MaxNhap = max;
+	if(MaxNhap == 0) 
+		MaxNhap = MAX_INPUT;
+	rewind(stdin);
+	InputSTR Nhap;	
+	Nhap.n = strlen(variable);
+	while(true)
+	{
+		if(kbhit())
+		{
+			char c = getch();
+			if(!kbhit() && !(!((int)c >= 65 && (int)c <= 90) && !((int)c >= 97 && (int)c <= 122) && c != ' ' && !((int)c>=48 && (int)c<=57)))
+			{
+				if(Nhap.n > 0 && *Nhap.Key[Nhap.n - 1] == ' ' && c == ' ')
+				{
+					continue;
+				}
+				if (Nhap.n == 0 && (int)c>=48 && (int)c<=57 ) {
+					continue;
+				}
+				if(!(Nhap.n == 0 && c == ' '))
+				{
+					c = toupper(c);
+					Nhap.Key[Nhap.n] = new char;
+					cout << c;
+					*Nhap.Key[Nhap.n] = c;
+					Nhap.n++;
+				}
+			}
+			if(c == '\r')
+			{
+				if(Nhap.n > 0 && *Nhap.Key[Nhap.n - 1] == ' ')
+				{
+					gotoxy(getx() - 1, gety());
+					cout << " ";
+					gotoxy(getx() - 1, gety());
+					if(Nhap.n > 0)
+					{
+						Nhap.n--;
+					}
+				}	
+				break;
+			}
+			if(c == BACKSPACE && Nhap.n > 0)
+			{
+				gotoxy(getx() - 1, gety());
+				cout << " ";
+				gotoxy(getx() - 1, gety());
+				Nhap.n--;
+			}
+		}
+			
+	}
+	for(int i = 0; i < Nhap.n; i++)
+	{
+		variable[i] = *Nhap.Key[i];
+	}
+	variable[Nhap.n] = '\0';
+}
+
 void gotoxy(int x, int y)
 {
   static HANDLE h = NULL;  
@@ -104,3 +273,24 @@ void resizeConsole(int width, int height)
 	GetWindowRect(console, &r);
 	MoveWindow(console, r.left, r.top, width, height, TRUE);
 }
+
+int getx()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+		return csbi.dwCursorPosition.X;
+	return -1;
+}
+
+int gety()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+		return csbi.dwCursorPosition.Y;
+	return -1;
+}
+
+
+
+
+

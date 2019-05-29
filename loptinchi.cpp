@@ -35,124 +35,111 @@ int Search_MALOPTC (NODETT &ds, unsigned int temp) { // ham kiem tra ma lop tin 
 
 int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 	unsigned int temp;
+	int max = 10;
+	ds.nodett[ds.n] = new dsltc;
 	char MH[10],NK[10],HK[10],SVM[200];
 	int a=0;
-	fflush(stdin);
+	for (int i=3;i<=165;i++) {
+		gotoxy(i,2);
+		cout << " ";
+	}
+	for (int i=3;i<=165;i++) {
+		gotoxy(i,39);
+		cout << " ";
+	}
+	TextColor(138);
+	gotoxy(76,2);
+	cout << "THEM LOP TIN CHI";
+	TextColor(DEN);
 	do {
-		ds.nodett[ds.n] = new dsltc;
-		XoaManHinh();
-		DrawScreen();
-		char buff [33];	
+		Clearmen();
+		a=0;
 		DrawBox(63,19,43,2);
-		DrawBox(63,22,43,2);
 		gotoxy(65,19);
-		cout << "Nhap Ma Mon Hoc (nhap q hoac 0 de thoat):";
+		cout << "Nhap Ma Mon Hoc:";
 		fflush(stdin);
 		gotoxy(65,20);
-		gets(MH);
-		if (stricmp(MH,"q") == 0) {
-			break;
-		}
-		if (strcmp(MH,itoa(0,buff,10))==0) {
-			break;
-		}
-		if (strlen(MH)==0 || atoi(MH) > 0 || atoi(MH) < 0 || Find_Space(MH) == 0) {
-			gotoxy(65,23);
-			cout<< "Khong hop le, nhap lai";
-			delete ds.nodett[ds.n];
-			ds.n--;
+		InputString(MH,max);
+		if (strlen(MH) == 0) {
+			gotoxy(65,20);
+			cout<< "                                 ";
+			gotoxy(65,20);
+			cout << "khong duoc de trong:";
+			a = 1;
 			getch();
-			continue;
 		}
 		if (Search_MAMONHOC(ds,MH) == 1) {
-			gotoxy(65,23);
-			cout << "Ma mon hoc da co, vui long nhap lai:";
+			gotoxy(65,20);
+			cout<< "                                 ";
+			gotoxy(65,20);
+			cout << "ma mon hoc da co, nhap lai!";
+			a = 1;
 			getch();
-			continue;
 		}
-		strcpy(ds.nodett[ds.n]->MAMH,strupr(MH));
-		
-		do {
-			XoaManHinh();
-			DrawScreen();
-			DrawBox(63,19,43,2);
-			DrawBox(63,22,43,2);
-			gotoxy(65,19);
-			a=0;
-			cout << "Nhap Nien Khoa: ";
-			fflush(stdin);
+	} while (a==1);
+	strcpy(ds.nodett[ds.n]->MAMH,strupr(MH));
+	do {
+		Clearmen();
+		DrawBox(63,19,43,2);
+		a=0;	
+		gotoxy(65,19);
+		cout << "Nhap Nien Khoa: ";
+		fflush(stdin);
+		gotoxy(65,20);
+		InputNumber(NK,max);
+		if (strlen(NK)==0) {
 			gotoxy(65,20);
-			gets(NK);
-			if (NumberOnly(NK) == 0) {
-				a=1;
-				gotoxy(65,23);
-				cout << "chi duoc nhap so nguyen, nhap lai!";
-				getch();
-			}
-			if (strlen(NK)==0) {
-				a=1;
-				gotoxy(65,23);
-				cout << "khong duoc nhap chuoi rong, nhap lai!";
-				getch();
-			}
-		} while (a == 1);
-		ds.nodett[ds.n]->NIENKHOA = atoi(NK);
-		do {
-			XoaManHinh();
-			DrawScreen();
-			DrawBox(63,19,43,2);
-			DrawBox(63,22,43,2);
-			gotoxy(65,19);
-			a=0;
-			cout << "Nhap hoc ki bat dau: ";
-			fflush(stdin);
+			cout<< "                                 ";
 			gotoxy(65,20);
-			gets(HK);
-			if (NumberOnly(HK) == 0) {
-				a=1;
-				gotoxy(65,23);
-				cout << "chi duoc nhap so nguyen, nhap lai!";
-				getch();
-			}
-			if (strlen(HK)==0) {
-				a=1;
-				gotoxy(65,23);
-				cout << "khong duoc nhap chuoi rong, nhap lai!";
-				getch();
-			}
-		} while (a==1);
-		ds.nodett[ds.n]->HOCKY = atoi(HK);
-		do {
-			XoaManHinh();
-			DrawScreen();
-			DrawBox(63,19,43,2);
-			DrawBox(63,22,43,2);
-			gotoxy(65,19);
-			a=0;
-			cout << "Nhap So Sinh Vien Toi Da:";
-			fflush(stdin);
+			cout << "khong duoc de trong:";
+			a = 1;
+			getch();
+		}
+	} while (a == 1);
+	ds.nodett[ds.n]->NIENKHOA = atoi(NK);
+	do {
+		Clearmen();
+		DrawBox(63,19,43,2);
+		gotoxy(65,19);
+		a=0;
+		cout << "Nhap hoc ki bat dau: ";
+		fflush(stdin);
+		gotoxy(65,20);
+		InputNumber(HK,max);
+		if (strlen(HK)==0) {
 			gotoxy(65,20);
-			gets(SVM);
-			if (NumberOnly(SVM) == 0) {
-				a=1;
-				gotoxy(65,23);
-				cout << "chi duoc nhap so nguyen, nhap lai!";
-				getch();
-			}
-			if (strlen(SVM)==0) {
-				a=1;
-				gotoxy(65,23);
-				cout << "khong duoc nhap chuoi rong, nhap lai!";
-				getch();
-			}
-		} while (a==1);
-		ds.nodett[ds.n]->SVMAX = atoi (SVM);
-		do {		
-				temp = Random();		
-		} while(Search_MALOPTC(ds,temp) == 1);
-		ds.nodett[ds.n]->MALOPTC = temp;	
-		ds.n++;
-	} while (ds.n <= MAX);
+			cout<< "                                 ";
+			gotoxy(65,20);
+			cout << "khong duoc de trong:";
+			a = 1;
+			getch();
+		}
+	} while (a==1);
+	ds.nodett[ds.n]->HOCKY = atoi(HK);
+	do {
+		Clearmen();
+		DrawBox(63,19,43,2);
+		a=0;
+		gotoxy(65,19);
+		cout << "Nhap So Sinh Vien Toi Da:";
+		fflush(stdin);
+		gotoxy(65,20);
+		InputNumber(SVM,max);
+		if (strlen(SVM)==0) {
+			gotoxy(65,20);
+			cout<< "                                 ";
+			gotoxy(65,20);
+			cout << "khong duoc de trong:";
+			a = 1;
+			getch();
+		}
+	} while (a==1);
+	ds.nodett[ds.n]->SVMAX = atoi (SVM);
+	do {		
+			temp = Random();		
+	} while(Search_MALOPTC(ds,temp) == 1);
+	ds.nodett[ds.n]->MALOPTC = temp;	
+	ds.n++;
 }
 
 void Show_Data_LTC(NODETT &ds,int i) { // ham show du lieu
@@ -276,12 +263,12 @@ void Delete_LTC_MAMONHOC(NODETT &ds, char MAMONHOC[10]) { //xoa nodes theo ma lo
 		}
 		ds.n--;
 
-		gotoxy(79,23);
+		gotoxy(66,20);
 		cout << "Thanh cong!";
 		getch();
 	} else {
 
-		gotoxy(70,23);
+		gotoxy(66,20);
 		cout << "Khong Tim Thay Ma Lop Tin Chi";
 		getch();
 	}
