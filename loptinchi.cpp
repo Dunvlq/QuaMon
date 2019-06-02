@@ -33,132 +33,216 @@ int Search_MALOPTC (NODETT &ds, unsigned int temp) { // ham kiem tra ma lop tin 
 	return FALSE;
 }
 
-int Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
+int Search_NIENKHOA(NODETT &ds, unsigned int temp) {
+	for (int i=0;i<ds.n;i++) {
+		if (ds.nodett[i]->NIENKHOA == temp) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+int Search_HOCKY(NODETT &ds, unsigned int temp) {
+	for (int i=0;i<ds.n;i++) {
+		if (ds.nodett[i]->HOCKY == temp) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+int Search_SVMAX(NODETT &ds, unsigned int temp) {
+	for (int i=0;i<ds.n;i++) {
+		if (ds.nodett[i]->SVMAX == temp) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+void InputLTC(NODETT &ds) {
+	
+}
+
+void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 	unsigned int temp;
 	int max = 10;
 	ds.nodett[ds.n] = new dsltc;
-	char MH[10],NK[10],HK[10],SVM[200];
+	char MH[11],NK[11],HK[11],SVM[11];
 	int a=0;
-	for (int i=3;i<=165;i++) {
-		gotoxy(i,2);
-		cout << " ";
-	}
-	for (int i=3;i<=165;i++) {
-		gotoxy(i,39);
-		cout << " ";
-	}
-	TextColor(138);
-	gotoxy(76,2);
-	cout << "THEM LOP TIN CHI";
+	int exit=0;
+	int thaotac=0;
 	TextColor(DEN);
 	do {
-		Clearmen();
+		gotoxy(123,6);
+		cout<< "                                 ";
 		a=0;
-		DrawBox(63,19,43,2);
-		gotoxy(65,19);
+		DrawBox(121,5,43,2);
+		gotoxy(123,5);
 		cout << "Nhap Ma Mon Hoc:";
 		fflush(stdin);
-		gotoxy(65,20);
+		gotoxy(123,6);
 		InputString(MH,max);
 		if (strlen(MH) == 0) {
-			gotoxy(65,20);
+			gotoxy(123,6);
 			cout<< "                                 ";
-			gotoxy(65,20);
+			gotoxy(123,6);
 			cout << "khong duoc de trong:";
 			a = 1;
 			getch();
 		}
 		if (Search_MAMONHOC(ds,MH) == 1) {
-			gotoxy(65,20);
+			gotoxy(123,6);
 			cout<< "                                 ";
-			gotoxy(65,20);
+			gotoxy(123,6);
 			cout << "ma mon hoc da co, nhap lai!";
 			a = 1;
 			getch();
 		}
 	} while (a==1);
-	strcpy(ds.nodett[ds.n]->MAMH,strupr(MH));
+	
 	do {
-		Clearmen();
-		DrawBox(63,19,43,2);
+		gotoxy(123,10);
+		cout<< "                                 ";
+		DrawBox(121,9,43,2);
 		a=0;	
-		gotoxy(65,19);
-		cout << "Nhap Nien Khoa: ";
+		gotoxy(123,9);
+		cout << "Nhap Nien Khoa:";
 		fflush(stdin);
-		gotoxy(65,20);
+		gotoxy(123,10);
 		InputNumber(NK,max);
 		if (strlen(NK)==0) {
-			gotoxy(65,20);
+			gotoxy(123,10);
 			cout<< "                                 ";
-			gotoxy(65,20);
+			gotoxy(123,10);
 			cout << "khong duoc de trong:";
 			a = 1;
 			getch();
 		}
 	} while (a == 1);
-	ds.nodett[ds.n]->NIENKHOA = atoi(NK);
+	
 	do {
-		Clearmen();
-		DrawBox(63,19,43,2);
-		gotoxy(65,19);
+		gotoxy(123,14);
+		cout<< "                                 ";
+		DrawBox(121,13,43,2);
+		gotoxy(123,13);
 		a=0;
-		cout << "Nhap hoc ki bat dau: ";
+		cout << "Nhap hoc ki bat dau:";
 		fflush(stdin);
-		gotoxy(65,20);
+		gotoxy(123,14);
 		InputNumber(HK,max);
 		if (strlen(HK)==0) {
-			gotoxy(65,20);
+			gotoxy(123,14);
 			cout<< "                                 ";
-			gotoxy(65,20);
+			gotoxy(123,14);
 			cout << "khong duoc de trong:";
 			a = 1;
 			getch();
 		}
 	} while (a==1);
-	ds.nodett[ds.n]->HOCKY = atoi(HK);
+	
 	do {
-		Clearmen();
-		DrawBox(63,19,43,2);
+		gotoxy(123,18);
+		cout<< "                                 ";
+		DrawBox(121,17,43,2);
 		a=0;
-		gotoxy(65,19);
+		gotoxy(123,17);
 		cout << "Nhap So Sinh Vien Toi Da:";
 		fflush(stdin);
-		gotoxy(65,20);
+		gotoxy(123,18);
 		InputNumber(SVM,max);
 		if (strlen(SVM)==0) {
-			gotoxy(65,20);
+			gotoxy(123,18);
 			cout<< "                                 ";
-			gotoxy(65,20);
+			gotoxy(123,18);
 			cout << "khong duoc de trong:";
 			a = 1;
 			getch();
 		}
 	} while (a==1);
-	ds.nodett[ds.n]->SVMAX = atoi (SVM);
+	
 	do {		
 			temp = Random();		
 	} while(Search_MALOPTC(ds,temp) == 1);
-	ds.nodett[ds.n]->MALOPTC = temp;	
-	ds.n++;
+	DrawBox(131,21,23,2);
+	gotoxy(139,21);
+	cout << "LUU LAI";
+	gotoxy(135,22);
+	cout << "CO";
+	gotoxy(147,22);
+	cout << "KHONG";
+	gotoxy(135,22);
+	//hight light co
+	TextColor(140);
+	cout << "CO";
+	TextColor(DEN);
+	while (exit == 0) {
+		char key;
+		key = getch();
+		if (key == Left) {
+			gotoxy(135,22);
+			TextColor(140);
+			cout << "CO";
+			if (thaotac == 0)
+				thaotac = 2 - 1;
+			else thaotac--;	
+			gotoxy(147,22);
+			TextColor(DEN);
+			cout << "KHONG";
+		}
+		else if (key == Right) {
+			gotoxy(147,22);
+			TextColor(140);
+			cout << "KHONG";
+			if (thaotac == 2 - 1)
+				thaotac = 0;
+			else thaotac++;
+			gotoxy(135,22);
+			TextColor(DEN);
+			cout << "CO";
+		}
+		else if (key == ESC) {
+			exit = 1;
+		}
+		else if (key == ENTER) {
+			if (thaotac == 0) {
+				strcpy(ds.nodett[ds.n]->MAMH,strupr(MH));
+				ds.nodett[ds.n]->NIENKHOA = atoi(NK);
+				ds.nodett[ds.n]->HOCKY = atoi(HK);
+				ds.nodett[ds.n]->SVMAX = atoi (SVM);
+				ds.nodett[ds.n]->MALOPTC = temp;	
+				ds.n++;
+				return;
+			}
+			else if (thaotac == 1 ) {
+				return;
+			}
+		}
+		
+	}
+	
+	
+
+	
 }
 
 void Show_Data_LTC(NODETT &ds,int i) { // ham show du lieu
 	int j=0;
 	for (i;i<ds.n;i++) { // in ra data
-		gotoxy(14,j+5);
+		gotoxy(7,j+7);
 		cout << i+1;
-		gotoxy(41,j+5);
+		gotoxy(20,j+7);
 		cout << ds.nodett[i]->MALOPTC;
-		gotoxy(67,j+5);
+		gotoxy(39,j+7);
 		cout << ds.nodett[i]->MAMH;
-		gotoxy(96,j+5);
+		gotoxy(63,j+7);
 		cout << ds.nodett[i]->NIENKHOA;
-		gotoxy(125,j+5);
+		gotoxy(80,j+7);
 		cout << ds.nodett[i]->HOCKY;
-		gotoxy(152,j+5);
+		gotoxy(92,j+7);
 		cout << ds.nodett[i]->SVMAX;
 		j++;
-		if (j==33) {
+		if (j==30) {
 			break; 
 		}
 	}
@@ -251,9 +335,9 @@ void Delete_LTC_MALOPTC(NODETT &ds, unsigned int temp) { //xoa nodes theo ma lop
 
 void Delete_LTC_MAMONHOC(NODETT &ds, char MAMONHOC[10]) { //xoa nodes theo ma lop tin chi trong bo nho
 	int a;
-	
 	if (Emptytt(ds)) {
-		cout << "\nChua co lop tin chi";
+		gotoxy(116,21);
+		cout << "Chua co lop tin chi";
 		getch();
 	}
 	a = TraverseCHAR(ds,MAMONHOC); 
@@ -262,16 +346,22 @@ void Delete_LTC_MAMONHOC(NODETT &ds, char MAMONHOC[10]) { //xoa nodes theo ma lo
 			ds.nodett[a-1] = ds.nodett[a];
 		}
 		ds.n--;
-
-		gotoxy(66,20);
+		gotoxy(116,21);
 		cout << "Thanh cong!";
 		getch();
 	} else {
 
-		gotoxy(66,20);
+		gotoxy(116,21);
 		cout << "Khong Tim Thay Ma Lop Tin Chi";
 		getch();
 	}
-	
+}
+
+void DeleteALL(NODETT &ds) {
+	for (int i=ds.n;i>=1;i--) {
+		ds.n--;
+		ds.nodett[i-1] = ds.nodett[i];
+		
+	}
 }
 

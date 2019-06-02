@@ -165,7 +165,7 @@ void InputStringSpace(char *variable, int max)
 		if(kbhit())
 		{
 			char c = getch();
-			if(!kbhit() && !(!((int)c >= 65 && (int)c <= 90) && !((int)c >= 97 && (int)c <= 122) && c != ' ' && !((int)c>=48 && (int)c<=57)))
+			if(!kbhit() && !(!((int)c >= 65 && (int)c <= 90) && !((int)c >= 97 && (int)c <= 122) && c != ' ' && !((int)c>=48 && (int)c<=57))&& Nhap.n < MaxNhap)
 			{
 				if(Nhap.n > 0 && *Nhap.Key[Nhap.n - 1] == ' ' && c == ' ')
 				{

@@ -110,37 +110,31 @@ void Print_Item()
 }
 
 void DrawBoxItemLTC() {
-	for (int i = 0;i <= 3; i++) {
+	for (int i = 0;i < 3; i++) {
 		TextColor(137);
-		DrawBox(59,10+i*7,50,2);
-		gotoxy(76,11);
+		DrawBox(114,12+i*7,50,2);
+		gotoxy(131,13);
 		cout << "THEM LOP TIN CHI";
-		gotoxy(77,11+7);
+		gotoxy(132,13+7);
 		cout << "XOA LOP TIN CHI";
-		gotoxy(74,11+14);
+		gotoxy(129,13+14);
 		cout << "CHINH SUA LOP TIN CHI";
-		gotoxy(71,11+21);
-		cout << "IN TAT CAC CAC LOP TIN CHI";
 	}
 }
 
 void ChoiceLTC(int i,int j) {
 	TextColor(j);
 	if (i == 0) {
-		gotoxy(76,11);
+		gotoxy(131,13);
 		cout << "THEM LOP TIN CHI";
 	}
 	if (i == 1) {
-		gotoxy(77,11+7);
+		gotoxy(132,13+7);
 		cout << "XOA LOP TIN CHI";
 	}
 	if (i == 2) {
-		gotoxy(74,11+14);
+		gotoxy(129,13+14);
 		cout << "CHINH SUA LOP TIN CHI";
-	}
-	if (i == 3) {
-		gotoxy(71,11+21);
-		cout << "IN TAT CAC CAC LOP TIN CHI";
 	}
 }
 
@@ -149,9 +143,10 @@ void Print_Item_LTC()
 	NODETT ds;
 	DocFile_LTC(ds);
 	int max = 10;
+	int k=0;
 	int thaoTac = 0;	
 	bool exit = false;
-	int So_item = 4;
+	int So_item = 3;
 	TextColor(DEN);
 	//	in tieu de chuong trinh
 	for (int i=3;i<=165;i++) {
@@ -161,27 +156,26 @@ void Print_Item_LTC()
 	gotoxy(79,2);
 	TextColor(138);
 	cout << "LOP TIN CHI";
-	gotoxy(71, HEIGHT - 1);
+	gotoxy(5, HEIGHT - 1);
+	for (int i=3;i<=165;i++) {
+		gotoxy(i,HEIGHT - 1);
+		cout << " ";
+	}
+	gotoxy(5, HEIGHT - 1);
 	TextColor(132);
-	cout << "ESC: THOAT --- ENTER: CHON";
-	TextColor(138);
+	cout << "ESC : THOAT | ENTER : CHON | PAGE UP - PAGE DOWN : CHUYEN TRANG ";
+	//TextColor(138);
 	// in menu ra man hinh
 	DrawBoxItemLTC();
 	//	highlight thao tac dau tien khi mo chuong trinh
-		TextColor(140);
-		gotoxy(76,11);
-		cout << "THEM LOP TIN CHI";
+	TextColor(140);
+	gotoxy(131,13);
+	cout << "THEM LOP TIN CHI";
 	TextColor(DEN);
+	Draw_LTC(ds,k);
 	while (!exit)
 	{	
-		for (int i=3;i<=165;i++) {
-			gotoxy(i,2);
-			cout << " ";
-		}
-		gotoxy(79,2);
-		TextColor(138);
-		cout << "LOP TIN CHI";
-		TextColor(DEN);
+		
 		char key;
 		key = getch();
 		if (key == UP)
@@ -189,50 +183,64 @@ void Print_Item_LTC()
 			ChoiceLTC(thaoTac,137);
 			if (thaoTac == 0)
 				thaoTac = So_item - 1;
-			else thaoTac--;			
+			else thaoTac--;	
 		}
 		else if (key == DOWN)
 		{
 			ChoiceLTC(thaoTac,137);
 			if (thaoTac == So_item - 1)
 				thaoTac = 0;
-			else thaoTac++;			
+			else thaoTac++;	
 		}
 		else if (key == ESC)
 		{
 			exit = true;
 		}
+		else if (key == PGUP) {
+			k=k-30;
+			if (k<0) {
+				k=0;
+			}
+			ClearTable();
+			Draw_LTC(ds,k);
+		}
+		else if (key == PGDN) {
+			k=k+30;
+			if (k>=ds.n) {
+				k=0;
+			}
+			ClearTable();
+			Draw_LTC(ds,k);
+		}
 		else if (key == ENTER)
 		{
 			if (thaoTac == 0) {
+				ClearChoice();
 				Create_LopTinChi(ds);
 				GhiFile_LTC(ds);
-				Clearmen();
+				ClearTable();
+				Draw_LTC(ds,k);
+				ClearChoice();
 				DrawBoxItemLTC();
 			}
 			else if (thaoTac == 1) {
-				Clearmen();
-				DrawBox(64,19,40,2);
-				gotoxy(66,19);
+				ClearChoice();
+				DrawBox(114,20,50,2);
+				gotoxy(116,20);
 				cout << "Nhap ma mon hoc can xoa!";
 				char a[10];
 				fflush(stdin);
-				gotoxy(66,20);
+				gotoxy(116,21);
 				InputString(a,max);
 				Delete_LTC_MAMONHOC(ds,a);
 				GhiFile_LTC(ds);
-				Clearmen();
+				ClearTable();
+				Draw_LTC(ds,k);
+				ClearChoice();
 				DrawBoxItemLTC();
 			}
-			else if (thaoTac == 3) {
+			else if (thaoTac == 2) {
 				
-				Draw_LTC(ds);
-				Clearmen();
-				DrawBoxItemLTC();
-				for (int i=3;i<=165;i++) {
-					gotoxy(i,39);
-					cout << " ";
-				}
 			}
 		}
 		//	highlight thao tac duoc chon
@@ -323,46 +331,33 @@ void Print_Item_SV()
 }
 
 void DrawBoxItemMH() {
-	for (int i = 0;i <= 4; i++) {
+	for (int i = 0;i <= 2; i++) {
 		TextColor(137);
-		DrawBox(59,9+i*6,50,2);
-		gotoxy(78,10);
+		DrawBox(114,12+i*7,50,2);
+		gotoxy(133,13);
 		cout << "THEM MON HOC";
-		gotoxy(79,10+6);
+		gotoxy(134,13+7);
 		cout << "XOA MON HOC";
-		gotoxy(76,10+12);
+		gotoxy(131,13+14);
 		cout << "CHINH SUA MON HOC";
-		gotoxy(75,10+18);
-		cout << "IN DANH SACH MON HOC";
-		gotoxy(78,10+24);
-		cout << "LUU VAO FILE";
 	}
 }
 
 void ChoiceMH(int i,int j) {
 	TextColor(j);
 	if (i == 0) {
-		gotoxy(78,10);
+		gotoxy(133,13);
 		cout << "THEM MON HOC";
 	}
 	if (i == 1) {
-		gotoxy(79,10+6);
+		gotoxy(134,13+7);
 		cout << "XOA MON HOC";
 	}
 	if (i == 2) {
-		gotoxy(76,10+12);
+		gotoxy(131,13+14);
 		cout << "CHINH SUA MON HOC";
 	}
-	if (i == 3) {
-		gotoxy(75,10+18);
-		cout << "IN DANH SACH MON HOC";
-	}
-	if (i == 4) {
-		gotoxy(78,10+24);
-		cout << "LUU VAO FILE";
-	}
 }
-
 void Print_Item_MH()
 {
 	PTR_NODETREE kd;
@@ -373,7 +368,7 @@ void Print_Item_MH()
 	int thaoTac = 0;	
 	bool exit = false;
 	char CTRL;
-	int So_item = 5;
+	int So_item = 3;
 	TextColor(DEN);
 	DrawScreen();
 	//	in tieu de chuong trinh
@@ -384,29 +379,24 @@ void Print_Item_MH()
 	gotoxy(81,2);
 	TextColor(138);
 	cout << "MON HOC";
-	gotoxy(71, HEIGHT - 1);
+	for (int i=3;i<=165;i++) {
+		gotoxy(i,39);
+		cout << " ";
+	}
+	gotoxy(5, HEIGHT - 1);
 	TextColor(132);
-	cout << "ESC: THOAT --- ENTER: CHON";
+	cout << "ESC : THOAT | ENTER : CHON | PAGE UP - PAGE DOWN : CHUYEN TRANG";
 	TextColor(138);
 	//in menu ra man hinh
 	DrawBoxItemMH();
 	//	highlight thao tac dau tien khi mo chuong trinh
 	ChoiceMH(thaoTac,140);
 	TextColor(DEN);
+	DrawTableMH();
+	Show_Tree(kd,k);
 	while (!exit)
 	{	
-		for (int i=3;i<=165;i++) {
-			gotoxy(i,39);
-			cout << " ";
-		}
-		for (int i=3;i<=165;i++) {
-			gotoxy(i,2);
-			cout << " ";
-		}
-		gotoxy(81,2);
-		TextColor(138);
-		cout << "MON HOC";
-		TextColor(128);
+		
 		char key;
 		key = getch();
 		if (key == UP)
@@ -427,59 +417,52 @@ void Print_Item_MH()
 		{
 			exit = true;
 		}
+		else if (key == PGUP) {
+			k=k-30;
+			if (k<0) {
+				k=0;
+			}
+			ClearTable();
+			DrawTableMH();
+			Show_Tree(kd,k);
+		}
+		else if (key == PGDN) {
+			k=k+30;
+			if (k>=CountNode(kd)) {
+				k=0;
+			}
+			ClearTable();
+			DrawTableMH();
+			Show_Tree(kd,k);
+		}
 		else if (key == ENTER)
 		{
 			if (thaoTac == 0) {
-		
+				ClearChoice();
 				mh = Input_Tree(kd);
 				Insert_Node_Tree(kd,mh);
-				Clearmen();
+				GhiFile_MH(kd);
+				DocFile_MH(kd);
+				ClearChoice();
 				DrawBoxItemMH();
+				ClearTable();
+				DrawTableMH();
+				Show_Tree(kd,k);
+				
 			}
 			else if (thaoTac == 1) {
-				Clearmen();
+				ClearChoice();
 				DeleteNode(kd,mh);
-				Clearmen();
-				DrawBoxItemMH();
-			}
-			else if (thaoTac == 3) {
-				do {
-					Draw_MH(kd);
-					Show_Tree(kd,k);
-					CTRL = getch();
-					if(CTRL == PGDN)
-					{
-						k=k+33;
-						if (k>=CountNode(kd)) {
-							k=0;
-						}
-						XoaManHinh();
-					}
-					else if (CTRL == PGUP)
-					{
-						k=k-33;
-						if (k<0) {
-							k=0;
-						}
-						XoaManHinh();
-					}
-					else if (CTRL == ESC) {
-						exit = true;
-					}	
-				} while (!exit);
-				exit = false;
-				Clearmen();
-				DrawBoxItemMH();
-			}
-			else if (thaoTac == 4) {
-				Clearmen();
 				GhiFile_MH(kd);
-				DrawBox(69,19,30,2);
-				gotoxy(82,20);
-				cout << "DONE";
-				getch();
-				Clearmen();
+				DocFile_MH(kd);
+				ClearChoice();
 				DrawBoxItemMH();
+				ClearTable();
+				DrawTableMH();
+				Show_Tree(kd,k);
+			}
+			else if (thaoTac == 2) {
+				
 			}
 		}
 		//	highlight thao tac duoc chon
@@ -753,123 +736,160 @@ void Clearmen() {
 	}
 }
 
+void ClearTable() {
+	for (int i=4;i<=37;i++) {
+		for (int j=3;j<=99;j++) {
+			gotoxy(j,i);
+			cout << " ";
+		}
+	}
+}
+
+void ClearChoice() {
+	for (int i=4;i<=37;i++) {
+		for (int j=100;j<=165;j++) {
+			gotoxy(j,i);
+			cout << " ";
+		}
+	}
+}
+
+void DrawTableLTC() {
+	DrawBox(4,4,95,33);
+	for (int i=5;i<=98;i++) { // line ngang 
+		gotoxy(i,6);
+		cout << char(196);
+		gotoxy(4,6);
+		cout << char(195);
+		gotoxy(99,6);
+		cout << char(180);
+	}
+	for (int i=5;i<=36;i++) { // line doc
+		gotoxy(12,i);
+		cout << char(179);
+		gotoxy(12,4);
+		cout << char(194);
+		gotoxy(12,6);
+		cout << char(197);
+		gotoxy(12,37);
+		cout << char(193);
+		//
+		gotoxy(30,i);
+		cout << char(179);
+		gotoxy(30,4);
+		cout << char(194);
+		gotoxy(30,6);
+		cout << char(197);
+		gotoxy(30,37);
+		cout << char(193);
+		//
+		gotoxy(54,i);
+		cout << char(179);
+		gotoxy(54,4);
+		cout << char(194);
+		gotoxy(54,6);
+		cout << char(197);
+		gotoxy(54,37);
+		cout << char(193);
+		//
+		gotoxy(75,i);
+		cout << char(179);
+		gotoxy(75,4);
+		cout << char(194);
+		gotoxy(75,6);
+		cout << char(197);
+		gotoxy(75,37);
+		cout << char(193);
+		//
+		gotoxy(86,i);
+		cout << char(179);
+		gotoxy(86,4);
+		cout << char(194);
+		gotoxy(86,6);
+		cout << char(197);
+		gotoxy(86,37);
+		cout << char(193);
+	
+	}
+	gotoxy(7,5);
+	cout << "STT";
+	gotoxy(18,5);
+	cout << "MALOPTC";
+	gotoxy(40,5);
+	cout << "MA MH";
+	gotoxy(60,5);
+	cout << "NIEN KHOA";
+	gotoxy(78,5);
+	cout << "HOC KY";
+	gotoxy(89,5);
+	cout << "SO SVMAX";
+}
+
 // phan cho mh
  
-void Draw_MH(PTR_NODETREE ds) {
-	Clearmen();
-	gotoxy(72,2);
-	cout<<"DANH SACH CAC MON HOC";
-	gotoxy(6,4);
+void DrawTableMH() {
+	TextColor(DEN);
+	DrawBox(4,4,95,33);
+	for (int i=5;i<=98;i++) { // line ngang 
+		gotoxy(i,6);
+		cout << char(196);
+		gotoxy(4,6);
+		cout << char(195);
+		gotoxy(99,6);
+		cout << char(180);
+	}
+	for (int i=5;i<=36;i++) {
+		gotoxy(10,i);
+		cout << char(179);
+		gotoxy(10,4);
+		cout << char(194);
+		gotoxy(10,6);
+		cout << char(197);
+		gotoxy(10,37);
+		cout << char(193);
+		//
+		gotoxy(25,i);
+		cout << char(179);
+		gotoxy(25,4);
+		cout << char(194);
+		gotoxy(25,6);
+		cout << char(197);
+		gotoxy(25,37);
+		cout << char(193);
+		//
+		gotoxy(83,i);
+		cout << char(179);
+		gotoxy(83,4);
+		cout << char(194);
+		gotoxy(83,6);
+		cout << char(197);
+		gotoxy(83,37);
+		cout << char(193);
+		//
+		gotoxy(91,i);
+		cout << char(179);
+		gotoxy(91,4);
+		cout << char(194);
+		gotoxy(91,6);
+		cout << char(197);
+		gotoxy(91,37);
+		cout << char(193);
+	}
+	gotoxy(6,5);
 	cout << "STT";
-	for (int i = 4; i < HEIGHT -2; i++)
-	{
-		gotoxy(12, i);
-		cout << char(179);
-	}
-	gotoxy(22,4);
-	cout << "Ma MH";
-	for (int i = 4; i < HEIGHT -2; i++)
-	{
-		gotoxy(37, i);
-		cout << char(179);
-	}
-	gotoxy(85,4);
-	cout << "Ten MH";
-	for (int i = 4; i < HEIGHT -2; i++)
-	{
-		gotoxy(138, i);
-		cout << char(179);
-	}
-	gotoxy(142,4); 
-	cout << "So TCLT";
-	for (int i = 4; i < HEIGHT -2; i++)
-	{
-		gotoxy(152, i);
-		cout << char(179);
-	}
-	gotoxy(156,4);
-	cout << "So TCTH";		
+	gotoxy(15,5);
+	cout << "MA MH";
+	gotoxy(52,5);
+	cout << "TEN MH";
+	gotoxy(85,5);
+	cout << "STCLT";
+	gotoxy(93,5);
+	cout << "STCTH";
 	TextColor(DEN);
 }
 // phan danh cho LTC
-void Draw_LTC(NODETT ds) {
-	char CTRL;
-	int k=0;
-	bool EXIT = true;
-	Clearmen();
-	for (int i=3;i<=165;i++) {
-		gotoxy(i,2);
-		cout << " ";
-	}
-	for (int i=3;i<=165;i++) {
-		gotoxy(i,39);
-		cout << " ";
-	}
-	TextColor(132);
-	gotoxy(4,39);
-	cout << "PAGE UP - PAGE DOWN : CHUYEN TRANG";
-	while (EXIT) {
-		TextColor(138);
-		gotoxy(72,2);
-		cout<<"DANH SACH CAC LOP TIN CHI";
-		TextColor(DEN);
-		gotoxy(14,4);
-		cout << "STT ";
-		for (int i = 4; i < HEIGHT -2; i++)
-		{
-			gotoxy(28, i);
-			cout << char(179);
-		}
-		gotoxy(39,4);
-		cout << "MALOPTC";
-		for (int i = 4; i < HEIGHT -2; i++)
-		{
-			gotoxy(56, i);
-			cout << char(179);
-		}
-		gotoxy(68,4); 
-		cout << "MA MH";
-		for (int i = 4; i < HEIGHT -2; i++)
-		{
-			gotoxy(84, i);
-			cout << char(179);
-		}
-		gotoxy(94,4);
-		cout << "NIEN KHOA";
-		for (int i = 4; i < HEIGHT -2; i++)
-		{
-			gotoxy(112, i);
-			cout << char(179);
-		}
-		gotoxy(123,4);
-		cout << "HOC KY";
-		for (int i = 4; i < HEIGHT -2; i++)
-		{
-			gotoxy(140, i);
-			cout << char(179);
-		}
-		gotoxy(150,4);  
-		cout << "SO SVMAX";
-		Show_Data_LTC(ds,k);
-		CTRL = getch();
-		if(CTRL == PGDN)
-		{
-			k=k+33;
-			if (k>=ds.n) {
-				k=0;
-			}
-			Clearmen();
-		}
-		else if (CTRL == PGUP)
-		{
-			k=k-33;
-			if (k<0) {
-				k=0;
-			}
-			Clearmen();
-		}
-		else if (CTRL == ESC)
-			EXIT = false;
-	};
-	
+void Draw_LTC(NODETT ds,int i) {
+	TextColor(DEN);
+	DrawTableLTC();
+	Show_Data_LTC(ds,i);
 }

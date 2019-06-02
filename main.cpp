@@ -7,41 +7,31 @@ using namespace std;
 
 int main () {
 	TextColor(128);
-	resizeConsole(1920,1080); 
-//	getch();
+	resizeConsole(1920,1080);
 	Menu();
-//	PTR_NODETREE Tree;
+//	PTR_NODETREE ds;
 //	dsmh mh;
-//	int i=0;
-//	InitializeTree(Tree);
-//	DocFile_MH(Tree);
-//	Inorder(Tree);
-//	DeleteNode(Tree,mh);
-//	XoaManHinh();
-//	Inorder(Tree);
-//	m = Input_Tree(Tree);
-//	Insert_Node_Tree(Tree,m);
-//	GhiFile_MH(Tree);
-//	Show_Tree(Tree,i);
-//	Inorder(Tree);
+//	InitializeTree(ds);
+//	DocFile_MH(ds);
+//	int i= CountNode(ds);
+//	char a[10];
+//	InitializeTree(ds);
+//	DocFile_MH(ds);
+//	InputStringSpace(a,10);
+//	if (Check_TenMonHoc(ds,a,i)) {
+//		cout << "tim thay";
+//		getch();
+//	} else {
+//		cout << "nothing";
+//		getch();
+//	}
+	
+
 	
 // ================================
 //	NODETT ds;
 //	DocFile_LTC(ds);
-//	Draw_LTC(ds);
-//	getch();
-//	Clearmen();
-//	getch();
-//	Create_LopTinChi(ds);
-//	Show_Data_LTC(ds,i);
-//	cout << "\nNhap ma mon hoc can xoa!";
-//	char a[10];
-//	fflush(stdin);
-//	gets(a);
-//	Delete_LTC_MAMONHOC(ds,a);
-//	GhiFile_LTC(ds);
-//	Show_Data_LTC(ds,i);
-	
-//	getch();
+
+	getch();
 
 }

@@ -30,6 +30,26 @@ void Insert_Node_Tree(PTR_NODETREE &ds, dsmh mh) {
 	}
 }
 
+bool Check_MaMonHoc(PTR_NODETREE ds, char *mh) {
+	if (ds==NULL) {
+		return false;
+	} 
+	else {
+		if (stricmp(Trim(mh),ds->monhoc.MAMH) == 0)
+		{
+			return true;
+		}
+		else if (stricmp(Trim(mh),ds->monhoc.MAMH) < 0)
+		{
+			Search_MaMonHoc(ds->LEFT, mh);
+		}
+		else if (stricmp(Trim(mh),ds->monhoc.MAMH) > 0 ) 
+		{
+			Search_MaMonHoc(ds->RIGHT, mh);
+		}
+	}
+}
+
 PTR_NODETREE Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
 	if (ds==NULL) {
 		return NULL;
@@ -50,123 +70,104 @@ PTR_NODETREE Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
 	}
 }
 
-int Search_TenMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo ten mon hoc
-	TEMP a[CountNode(ds) + 1];
-	int k=-1;
-	Transfer_Name(ds,a,k);
-	for (int i=0;i<CountNode(ds);i++) {
-		if(stricmp(mh,a[i].ten)==0){
-			return TRUE;
-		}
-	}
-	return FALSE;
-	
-}
-
 dsmh Input_Tree (PTR_NODETREE &ds) {
 	dsmh mh;
 	int a=0;
+	int h=CountNode(ds);
 	char buff[33];
 	int maxten = 50;
 	int maxma = 10;
-	char mmh[10], tmh[50], stclt[10], stcth[10];
-	for (int i=3;i<=165;i++) {
-		gotoxy(i,2);
-		cout << " ";
-	}
-	gotoxy(78,2);
-	TextColor(138);
-	cout << "THEM MON HOC";
-	TextColor(128);
+	char mmh[11], tmh[51], stclt[11], stcth[11];
 	do {
-		Clearmen();
-		DrawBox(59,19,50,2);
+		gotoxy(112,6);
+		cout<< "                                        ";
+		DrawBox(110,5,54,2);
 		a=0;
-		gotoxy(61,19);
+		gotoxy(112,5);
 		cout <<"Nhap Ma mon hoc:";
 		fflush(stdin);
-		gotoxy(61,20);
+		gotoxy(112,6);
 		InputString(mmh,maxma);
 		if (strlen(mmh)==0) {
-			gotoxy(61,20);
+			gotoxy(112,6);
 			cout<< "                                        ";
-			gotoxy(61,20);
+			gotoxy(112,6);
 			cout << "khong duoc de trong!";
 			a = 1;
 			getch();
 		}
+		if (Check_MaMonHoc(ds,mmh)) {
+			gotoxy(112,6);
+			cout<< "                                        ";
+			gotoxy(112,6);
+			cout << "Ma mon hoc da co, nhap lai!";
+			a = 1;
+			getch();
+		}
 	} while (a == 1);
-	strcpy(mh.MAMH,strupr(mmh));
 	do {
-		Clearmen();
-		DrawBox(59,19,50,2);
+		gotoxy(112,10);
+		cout<< "                                        ";
+		DrawBox(110,9,54,2);
 		a = 0;
-		gotoxy(61,19);
+		gotoxy(112,9);
 		cout <<"Nhap ten mon hoc: ";
 		fflush(stdin);
-		gotoxy(61,20);
+		gotoxy(112,10);
 		InputStringSpace(tmh,maxten);
 		if (strlen(tmh)==0) {
-			gotoxy(61,20);
+			gotoxy(112,10);
 			cout<< "                                        ";
-			gotoxy(61,20);
+			gotoxy(112,10);
 			cout << "khong duoc de trong!";
 			a = 1;
 			getch();
 		}
 	} while (a == 1 );
-	strcpy(mh.TENMH,strupr(Trim(tmh)));
 	do {
-		Clearmen();
-		DrawBox(59,19,50,2);
+		gotoxy(112,14);
+		cout<< "                                        ";
+		DrawBox(110,13,54,2);
 		a=0;
-		gotoxy(61,19);
+		gotoxy(112,13);
 		cout <<"Nhap so tin chi ly thuyet: ";
 		fflush(stdin);
-		gotoxy(61,20);
+		gotoxy(112,14);
 		InputNumber(stclt,maxma);
 		if (strlen(stclt)==0) {
-			gotoxy(61,20);
+			gotoxy(112,14);
 			cout<< "                                        ";
-			gotoxy(61,20);
+			gotoxy(112,14);
 			cout << "khong duoc de trong!";
 			a = 1;
 			getch();
 		}
 	} while (a==1);
-	mh.STCLT = atoi(stclt);
 	do {
-		Clearmen();
-		DrawBox(59,19,50,2);
+		gotoxy(112,18);
+		cout<< "                                        ";
+		DrawBox(110,17,54,2);
 		a=0;
-		gotoxy(61,19);
+		gotoxy(112,17);
 		cout <<"Nhap so tin chi thuc hanh: ";
 		fflush(stdin);
-		gotoxy(61,20);
+		gotoxy(112,18);
 		InputNumber(stcth,maxma);
 		if (strlen(stcth)==0) {
-			gotoxy(61,20);
+			gotoxy(112,18);
 			cout<< "                                        ";
-			gotoxy(61,20);
+			gotoxy(112,18);
 			cout << "khong duoc de trong!";
 			a = 1;
 			getch();
 		}				
 	} while (a==1);
+	strcpy(mh.MAMH,strupr(mmh));
+	strcpy(mh.TENMH,strupr(Trim(tmh)));
+	mh.STCLT = atoi(stclt);
 	mh.STCTH = atoi(stcth);
 	return mh;
 }
-
-//void CreatTree_Dsmh(PTR_NODETREE &ds, dsmh mh) {
-//	int c;
-//	do{
-//		mh = Input_Tree(ds);
-//		Insert_Node_Tree(ds,mh);
-//		cout << "\nNhap tiep tuc ? 1 : CO - 0 : KHONG";
-//		cin >> c;
-//	} while (c == 1);
-//	
-//}
 
 NODETREE* FindMin(PTR_NODETREE ds)
 {
@@ -221,19 +222,19 @@ void RemoveTree (PTR_NODETREE &ds, dsmh mh) {
 
 void DeleteNode (PTR_NODETREE &ds, dsmh mh) {
 	char m[50];
-	DrawBox(59,19,50,2);
-	gotoxy(61,19);
+	DrawBox(114,19,50,2);
+	gotoxy(116,19);
 	cout << "Nhap ma mon hoc can xoa!";
-	gotoxy(61,20);
+	gotoxy(116,20);
 	InputString(m,50);
 	if (Search_MaMonHoc(ds,m) != NULL) {
 		mh = Search_MaMonHoc(ds,m)->monhoc;
 		RemoveTree(ds,mh);
-		gotoxy(61,20);
+		gotoxy(116,20);
 		cout << "DONE";	
 		getch();
 	} else {
-		gotoxy(61,20);
+		gotoxy(116,20);
 		cout << "Khong tim thay!";	
 		getch();
 	}
@@ -279,19 +280,20 @@ void Show_Tree (PTR_NODETREE ds,int k) {
 	}
 //	Sort(*arrtemp,1,i+1);
 	int j=0;
+	TextColor(DEN);
 	for (k;k<=i;k++) {	
-		gotoxy(6,j+5);
+		gotoxy(6,j+7);
 		cout << k+1;
-		gotoxy(22,j+5);
+		gotoxy(14,j+7);
 		cout << arrtemp[k]->MAMH;
-		gotoxy(45,j+5);
+		gotoxy(27,j+7);
 		cout << arrtemp[k]->TENMH;
-		gotoxy(145,j+5);
+		gotoxy(87,j+7);
 		cout << arrtemp[k]->STCLT;
-		gotoxy(159,j+5);
+		gotoxy(95,j+7);
 		cout << arrtemp[k]->STCTH;
 		j++;
-		if (j==33) {
+		if (j==30) {
 			break; 
 		}
 	}
@@ -331,17 +333,6 @@ void Sort(dsmh *arr,int q, int r) {
 		Sort(arr,i,r);
 	}
 }
-
-int Transfer_Name(PTR_NODETREE p,TEMP arr[],int k) {  // ham tao mang chua cac node cua tree
-	if (p == NULL) {
-		return FALSE;
-	}
-	Transfer_Name (p->LEFT,arr,k++);
-	strcpy(arr[k].ten,p->monhoc.TENMH);
-	Transfer_Name (p->RIGHT,arr,k++);
-	
-}
-
 
 void ConvertArray(PTR_NODETREE t)
 {

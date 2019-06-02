@@ -10,6 +10,7 @@
 #define FALSE 0
 #define MAX_INPUT 255
 #define BACKSPACE 8
+
 struct InputSTR {
 	unsigned int n;
 	char *Key[MAX_INPUT];

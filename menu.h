@@ -11,6 +11,10 @@
 #define SPACE 32
 #define PGUP 73
 #define PGDN 81
+#define F1 112
+#define F2 113
+#define F3 114
+#define F4 115
 #define F7 118
 #define F8 119
 #define F9 120
@@ -47,14 +51,17 @@ void DrawScreen();
 void ReMenu();
 void Menu();
 void Clearmen();
+void ClearTable();
+void ClearChoice();
+void DrawTableLTC();
 
 //phan cho mh
-void Draw_MH(PTR_NODETREE ds);
+void DrawTableMH();
 void Print_Item_MH();
 void DrawBoxItemMH();
 void ChoiceMH(int i,int j);
 // phan cho ltc
-void Draw_LTC(NODETT ds);
+void Draw_LTC(NODETT ds,int i);
 void Print_Item_LTC();
 void DrawBoxItemLTC();
 void ChoiceLTC(int i,int j);
