@@ -33,6 +33,7 @@ int TraverseINT (NODETT &ds,unsigned int temp);
 int TraverseCHAR (NODETT &ds,char temp[10]);
 void InputLTC(NODETT &ds);
 void Create_LopTinChi (NODETT &ds); // ham tao lop tin chi
+void Fix_Data_LTC(NODETT &ds,int j, int k);
 void Show_Data_LTC(NODETT &ds,int i); // ham xuat danh sach lop tin chi
 void DocFile_LTC(NODETT &ds);
 void GhiFile_LTC(NODETT &ds);

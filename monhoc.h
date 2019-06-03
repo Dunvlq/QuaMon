@@ -24,7 +24,7 @@ typedef NODETREE* PTR_NODETREE;
 void InitializeTree(PTR_NODETREE &root);
 bool Isempty (PTR_NODETREE ds);
 int Compare(dsmh x,dsmh y);
-void Insert_Node_Tree(PTR_NODETREE &ds, dsmh mh);
+void Insert_Node_Tree(PTR_NODETREE &ds,dsmh mh);
 dsmh Input_Tree (PTR_NODETREE &ds);
 void Show_Tree (PTR_NODETREE ds,int k);
 void Inorder(PTR_NODETREE p);
@@ -38,4 +38,5 @@ int CountNode(PTR_NODETREE &t);
 PTR_NODETREE Search_MaMonHoc(PTR_NODETREE ds, char *mh);
 bool Check_MaMonHoc(PTR_NODETREE ds, char *mh);
 void Sort(dsmh *arr,int q, int r);
+void SwapArr(dsmh &arr1, dsmh &arr2);
 

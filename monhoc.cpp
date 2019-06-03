@@ -73,8 +73,8 @@ PTR_NODETREE Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
 dsmh Input_Tree (PTR_NODETREE &ds) {
 	dsmh mh;
 	int a=0;
-	int h=CountNode(ds);
-	char buff[33];
+	int exit=0;
+	int thaotac=0;
 	int maxten = 50;
 	int maxma = 10;
 	char mmh[11], tmh[51], stclt[11], stcth[11];
@@ -105,6 +105,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 			getch();
 		}
 	} while (a == 1);
+	strcpy(mh.MAMH,mmh);
 	do {
 		gotoxy(112,10);
 		cout<< "                                        ";
@@ -112,7 +113,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 		a = 0;
 		gotoxy(112,9);
 		cout <<"Nhap ten mon hoc: ";
-		fflush(stdin);
+		rewind(stdin);
 		gotoxy(112,10);
 		InputStringSpace(tmh,maxten);
 		if (strlen(tmh)==0) {
@@ -124,6 +125,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 			getch();
 		}
 	} while (a == 1 );
+	strcpy(mh.TENMH,tmh);
 	do {
 		gotoxy(112,14);
 		cout<< "                                        ";
@@ -143,6 +145,7 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 			getch();
 		}
 	} while (a==1);
+	mh.STCLT = atoi(stclt);
 	do {
 		gotoxy(112,18);
 		cout<< "                                        ";
@@ -162,11 +165,58 @@ dsmh Input_Tree (PTR_NODETREE &ds) {
 			getch();
 		}				
 	} while (a==1);
-	strcpy(mh.MAMH,strupr(mmh));
-	strcpy(mh.TENMH,strupr(Trim(tmh)));
-	mh.STCLT = atoi(stclt);
 	mh.STCTH = atoi(stcth);
-	return mh;
+	DrawBox(131,21,23,2);
+	gotoxy(139,21);
+	cout << "LUU LAI";
+	gotoxy(135,22);
+	cout << "CO";
+	gotoxy(147,22);
+	cout << "KHONG";
+	gotoxy(135,22);
+	//hight light co
+	TextColor(140);
+	cout << "CO";
+	TextColor(DEN);
+	while (exit == 0) {
+		char key;
+		key = getch();
+		if (key == Left) {
+			gotoxy(135,22);
+			TextColor(140);
+			cout << "CO";
+			if (thaotac == 0)
+				thaotac = 2 - 1;
+			else thaotac--;	
+			gotoxy(147,22);
+			TextColor(DEN);
+			cout << "KHONG";
+		}
+		else if (key == Right) {
+			gotoxy(147,22);
+			TextColor(140);
+			cout << "KHONG";
+			if (thaotac == 2 - 1)
+				thaotac = 0;
+			else thaotac++;
+			gotoxy(135,22);
+			TextColor(DEN);
+			cout << "CO";
+		}
+		else if (key == ESC) {
+			exit = 1;
+		}
+		else if (key == ENTER) {
+			if (thaotac == 0) {
+				return mh;
+			}
+			else if (thaotac == 1 ) {
+				strcpy(mh.MAMH,"null");
+				
+				return mh;
+			}
+		}	
+	}
 }
 
 NODETREE* FindMin(PTR_NODETREE ds)
@@ -278,7 +328,7 @@ void Show_Tree (PTR_NODETREE ds,int k) {
 		else p = Stack[sp--];
 		i++;
 	}
-//	Sort(*arrtemp,1,i+1);
+//	Sort(*arrtemp,0,i);
 	int j=0;
 	TextColor(DEN);
 	for (k;k<=i;k++) {	
@@ -298,30 +348,35 @@ void Show_Tree (PTR_NODETREE ds,int k) {
 		}
 	}
 }
-void Sort(dsmh *arr,int q, int r) {
+
+void SwapArr(dsmh &arr1, dsmh &arr2) {
 	dsmh tam;
+	strcpy(tam.MAMH,arr1.MAMH);
+	strcpy(tam.TENMH,arr1.TENMH);
+	tam.STCLT = arr1.STCLT;
+	tam.STCTH = arr1.STCTH;
+	
+	strcpy(arr1.MAMH,arr2.MAMH);
+	strcpy(arr1.TENMH,arr2.TENMH);
+	arr1.STCLT = arr2.STCLT;
+	arr1.STCTH = arr2.STCTH;
+	
+	strcpy(arr2.MAMH,tam.MAMH);
+	strcpy(arr2.TENMH,tam.TENMH);
+	arr2.STCLT = tam.STCLT;
+	arr2.STCTH = tam.STCTH;
+}
+
+void Sort(dsmh *arr,int q, int r) {
 	int i=q;
 	int j=r;
-	dsmh x;
-	strcpy(x.TENMH,arr[(q+r)/2].TENMH);
+	dsmh x = arr[(q+r)/2];
+
 	do {
 		while (stricmp(arr[i].TENMH,x.TENMH) < 0) i++;
 		while (stricmp(arr[j].TENMH,x.TENMH) > 0) j--;
 		if (i<=j) {
-			strcpy(tam.MAMH,arr[i].MAMH);
-			strcpy(tam.TENMH,arr[i].TENMH);
-			tam.STCLT = arr[i].STCLT;
-			tam.STCTH = arr[i].STCTH;
-			
-			strcpy(arr[i].MAMH,arr[j].MAMH);
-			strcpy(arr[i].TENMH,arr[j].TENMH);
-			arr[i].STCLT = arr[j].STCLT;
-			arr[i].STCTH = arr[j].STCTH;
-			
-			strcpy(arr[j].MAMH,tam.MAMH);
-			strcpy(arr[j].TENMH,tam.TENMH);
-			arr[j].STCLT = tam.STCLT;
-			arr[j].STCTH = tam.STCTH;
+			SwapArr(arr[i],arr[j]);
 			i++;
 			j--;
 		}
@@ -332,6 +387,7 @@ void Sort(dsmh *arr,int q, int r) {
 	if (i<r) {
 		Sort(arr,i,r);
 	}
+
 }
 
 void ConvertArray(PTR_NODETREE t)

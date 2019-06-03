@@ -138,6 +138,25 @@ void ChoiceLTC(int i,int j) {
 	}
 }
 
+void ChoiceData(int i,int j) {
+	if (i == 0 ) {
+		gotoxy(31,j);
+		cout << ">";
+	}
+	if (i == 1 ) {
+		gotoxy(55,j);
+		cout << ">";
+	}
+	if (i == 2 ) {
+		gotoxy(76,j);
+		cout << ">";
+	}
+	if (i == 3 ) {
+		gotoxy(87,j);
+		cout << ">";
+	}
+}
+
 void Print_Item_LTC()
 {
 	NODETT ds;
@@ -207,7 +226,7 @@ void Print_Item_LTC()
 		else if (key == PGDN) {
 			k=k+30;
 			if (k>=ds.n) {
-				k=0;
+				k=k-30;
 			}
 			ClearTable();
 			Draw_LTC(ds,k);
@@ -240,7 +259,75 @@ void Print_Item_LTC()
 				DrawBoxItemLTC();
 			}
 			else if (thaoTac == 2) {
+				exit = false;
+				ClearTable();
+				ClearChoice();
+				Draw_LTC(ds,k);
+				int thaotac=0;
+				gotoxy(5,7);
+				cout << ">";
+				gotoxy(11,7);
+				cout << "<";
+				while (!exit) {
+					char c;
+					c = getch();
+					if (c == DOWN)
+					{
+						thaotac++;
+						if (thaotac >= 30) {
+							thaotac=29;
+						}
+						if (k > 0 && thaotac >=(ds.n-k-1)) {
+							thaotac=(ds.n-k-1);
+						}
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(11,thaotac+7);
+						cout << "<";
+						//
+						gotoxy(5,thaotac+6);
+						cout << " ";
+						gotoxy(11,thaotac+6);
+						cout << " ";
+						
 				
+					}
+					else if (c == UP)
+					{
+						thaotac--;
+						if (thaotac <= 0) {
+							thaotac = 0;
+						}
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(11,thaotac+7);
+						cout << "<";
+						//
+						gotoxy(5,thaotac+8);
+						cout << " ";
+						gotoxy(11,thaotac+8);
+						cout << " ";	
+					}
+					else if (c == ESC)
+					{
+						exit = true;
+					}
+					else if (c == ENTER) {
+						Fix_Data_LTC(ds,thaotac,k);
+						GhiFile_LTC(ds);
+						ClearTable();
+						Draw_LTC(ds,k);
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(11,thaotac+7);
+						cout << "<";
+					}
+				}
+				exit = false;
+				ClearTable();
+				Draw_LTC(ds,k);
+				ClearChoice();
+				DrawBoxItemLTC();
 			}
 		}
 		//	highlight thao tac duoc chon
@@ -429,7 +516,7 @@ void Print_Item_MH()
 		else if (key == PGDN) {
 			k=k+30;
 			if (k>=CountNode(kd)) {
-				k=0;
+				k=k-30;
 			}
 			ClearTable();
 			DrawTableMH();
@@ -441,6 +528,9 @@ void Print_Item_MH()
 				ClearChoice();
 				mh = Input_Tree(kd);
 				Insert_Node_Tree(kd,mh);
+				if (strcmp(mh.MAMH,"null")==0) {
+					RemoveTree(kd,mh);
+				}
 				GhiFile_MH(kd);
 				DocFile_MH(kd);
 				ClearChoice();
@@ -752,6 +842,17 @@ void ClearChoice() {
 			cout << " ";
 		}
 	}
+}
+
+void ClearSignalLTC(int i) {
+	gotoxy(31,i);
+	cout << " ";
+	gotoxy(55,i);
+	cout << " ";
+	gotoxy(76,i);
+	cout << " ";
+	gotoxy(87,i);
+	cout << " ";
 }
 
 void DrawTableLTC() {

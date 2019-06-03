@@ -217,13 +217,181 @@ void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 			else if (thaotac == 1 ) {
 				return;
 			}
-		}
-		
-	}
-	
-	
+		}	
+	}	
+}
 
-	
+void Fix_Data_LTC(NODETT &ds,int j, int k) {
+	int max = 10,max1 = 4;
+	int exit=0;
+	int thaotac=0;
+	int soitem = 4;
+	char mh[11],nk[11],hk[11],svm[11];
+	ClearSignalLTC(j + 7);
+	ChoiceData(thaotac,j+7);
+	while (1) {
+		char key1;
+		key1 = getch();
+		if (key1 == Left)
+		{
+			thaotac--;
+			if (thaotac<=0) {
+				thaotac=0;
+			} 
+			ClearSignalLTC(j+7);
+			ChoiceData(thaotac,j+7);
+		}
+		else if (key1 == Right)
+		{
+			thaotac++;
+			if (thaotac > 3) {
+				thaotac = 3;
+			}
+			ClearSignalLTC(j+7);
+			ChoiceData(thaotac,j+7);
+		}
+		else if (key1 == ESC)
+		{
+			break;
+		}
+		else if (key1 == ENTER) {
+			if (thaotac==0) {
+				int o=0;
+				do {
+					o=0;
+					ClearSignalLTC(j + 7);
+					gotoxy(38,j+7);
+					cout << "            ";
+					gotoxy(39,j+7);
+					InputString(mh,max);
+					if (Search_MAMONHOC(ds,mh)) {
+						gotoxy(39,j+7);
+						cout << "          ";
+						gotoxy(39,j+7);
+						cout << "Bi trung";
+						getch();
+						o=1;
+					}
+					if (strlen(mh)==0) {
+						gotoxy(38,j+7);
+						cout << "            ";
+						gotoxy(38,j+7);
+						cout << "NHAP MA MH";
+						getch();
+						o=1;
+					}
+					ChoiceData(thaotac,j+7);
+				} while (o==1);
+				strcpy(ds.nodett[k+j]->MAMH,mh);
+			}
+			if (thaotac==1) {
+				int o=0;
+				do {
+					o=0;
+					ClearSignalLTC(j + 7);
+					gotoxy(62,j+7);
+					cout << "           ";
+					gotoxy(63,j+7);
+					InputNumber(nk,max);
+					if (strlen(nk)==0) {
+						o=1;
+					}
+					ChoiceData(thaotac,j+7);
+				} while (o==1);
+				ds.nodett[k+j]->NIENKHOA = atoi(nk);
+			}
+			if (thaotac==2) {
+				int o=0;
+				do {
+					o=0;
+					ClearSignalLTC(j + 7);
+					gotoxy(77,j+7);
+					cout << "      ";
+					gotoxy(80,j+7);
+					InputNumber(hk,max1);
+					if (strlen(nk)==0) {
+						o=1;
+					}
+					ChoiceData(thaotac,j+7);
+				} while (o==1);
+				ds.nodett[k+j]->HOCKY = atoi(hk);
+			}
+			if (thaotac==3) {
+				int o=0;
+				do {
+					o=0;
+					ClearSignalLTC(j + 7);
+					gotoxy(92,j+7);
+					cout << "    ";
+					gotoxy(92,j+7);
+					InputNumber(svm,max1);
+					if (strlen(nk)==0) {
+						o=1;
+					}
+					ChoiceData(thaotac,j+7);
+				} while (o==1);
+				ds.nodett[k+j]->SVMAX = atoi (svm);	
+			}
+		}
+	}
+	ClearChoice();
+	// ve khung yes no
+//	DrawBox(131,21,23,2);
+//	gotoxy(139,21);
+//	cout << "LUU LAI";
+//	gotoxy(135,22);
+//	cout << "CO";
+//	gotoxy(147,22);
+//	cout << "KHONG";
+//	gotoxy(135,22);
+//	//hight light co
+//	TextColor(140);
+//	cout << "CO";
+//	TextColor(DEN);
+//	while (exit == 0) {
+//		char key;
+//		key = getch();
+//		if (key == Left) {
+//			gotoxy(135,22);
+//			TextColor(140);
+//			cout << "CO";
+//			if (thaotac == 0)
+//				thaotac = 2 - 1;
+//			else thaotac--;	
+//			gotoxy(147,22);
+//			TextColor(DEN);
+//			cout << "KHONG";
+//		}
+//		else if (key == Right) {
+//			gotoxy(147,22);
+//			TextColor(140);
+//			cout << "KHONG";
+//			if (thaotac == 2 - 1)
+//				thaotac = 0;
+//			else thaotac++;
+//			gotoxy(135,22);
+//			TextColor(DEN);
+//			cout << "CO";
+//		}
+//		else if (key == ESC) {
+//			exit = 1;
+//		}
+//		else if (key == ENTER) {
+//			if (thaotac == 0) {
+//				strcpy(ds.nodett[k+j]->MAMH,mh);
+//				ds.nodett[k+j]->NIENKHOA = atoi(nk);
+//				ds.nodett[k+j]->HOCKY = atoi(hk);
+//				ds.nodett[k+j]->SVMAX = atoi (svm);	
+//				ClearChoice();
+//				exit = 1;
+//			}
+//			else if (thaotac == 1 ) {
+//				ClearChoice();
+//				exit = 1;
+//			}
+//		}	
+//	}
+//	ClearChoice();
 }
 
 void Show_Data_LTC(NODETT &ds,int i) { // ham show du lieu

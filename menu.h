@@ -52,8 +52,9 @@ void ReMenu();
 void Menu();
 void Clearmen();
 void ClearTable();
-void ClearChoice();
-void DrawTableLTC();
+void ClearChoice(); 
+
+
 
 //phan cho mh
 void DrawTableMH();
@@ -61,10 +62,13 @@ void Print_Item_MH();
 void DrawBoxItemMH();
 void ChoiceMH(int i,int j);
 // phan cho ltc
+void DrawTableLTC();
+void ClearSignalLTC(int i);
 void Draw_LTC(NODETT ds,int i);
 void Print_Item_LTC();
 void DrawBoxItemLTC();
 void ChoiceLTC(int i,int j);
+void ChoiceData(int i,int j);
 // phan cho sv
 void Print_Item_SV();
 void DrawBoxItemSV();
