@@ -50,22 +50,29 @@ bool Check_MaMonHoc(PTR_NODETREE ds, char *mh) {
 	}
 }
 
-PTR_NODETREE Find_MaMonHoc(PTR_NODETREE &ds,dsmh mh) {
+void Fix_MaMonHoc(PTR_NODETREE &ds,char *temp,dsmh mh) {
 	if (ds==NULL) {
-		//chan chan xay ra
+		return;
 	} 
 	else {
-		if (stricmp(mh.MAMH,ds->monhoc.MAMH) == 0)
+		if (stricmp(Trim(temp),ds->monhoc.MAMH) == 0)
 		{
-			return ds;
+			strcpy(ds->monhoc.MAMH,mh.MAMH);
+			strcpy(ds->monhoc.TENMH,mh.TENMH);
+			ds->monhoc.STCLT = mh.STCLT;
+			ds->monhoc.STCTH = mh.STCTH;
+			return;
+//			gotoxy(20,20);
+//			cout << "dung";
+//			getch();
 		}
-		else if (stricmp(mh.MAMH,ds->monhoc.MAMH) < 0)
+		else if (stricmp(Trim(temp),ds->monhoc.MAMH) < 0)
 		{
-			Find_MaMonHoc(ds->LEFT, mh);
+			Fix_MaMonHoc(ds->LEFT,temp, mh);
 		}
-		else if (stricmp(mh.MAMH,ds->monhoc.MAMH) > 0 ) 
+		else if (stricmp(Trim(temp),ds->monhoc.MAMH) > 0 ) 
 		{
-			Find_MaMonHoc(ds->RIGHT, mh);
+			Fix_MaMonHoc(ds->RIGHT,temp, mh);
 		}
 	}
 }
@@ -348,7 +355,7 @@ void Show_Tree (PTR_NODETREE ds,int k) {
 		else p = Stack[sp--];
 		i++;
 	}
-	Sort(arrtemp,0,i-1);
+//	Sort(arrtemp,0,i-1);
 	int j=0;
 	TextColor(DEN);
 	for (k;k<=i;k++) {	
@@ -370,9 +377,38 @@ void Show_Tree (PTR_NODETREE ds,int k) {
 }
 
 void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
-	dsmh mh;
-	mh = ConvertArray(ds)[k+j];
-	ds = Find_MaMonHoc(ds,mh);
+	dsmh mh,ab;
+	PTR_NODETREE p = ds;
+	dsmh *arrtemp[500];
+	PTR_NODETREE Stack[500];
+	int sp = -1;
+	int i = 0;
+	while(p != NULL)
+	{
+		arrtemp[i] = new dsmh;
+		strcpy(arrtemp[i]->MAMH,p->monhoc.MAMH);
+		strcpy(arrtemp[i]->TENMH,p->monhoc.TENMH);
+		arrtemp[i]->STCLT = p->monhoc.STCLT;
+		arrtemp[i]->STCTH = p->monhoc.STCTH;
+		if(p->RIGHT != NULL)
+		{
+			Stack[++sp] = p->RIGHT;
+		}
+		if(p->LEFT != NULL)
+		{
+			p = p->LEFT;
+		}
+		else if(sp == -1)
+				break;
+		else p = Stack[sp--];
+		i++;
+	}
+	strcpy(mh.MAMH,arrtemp[k+j]->MAMH);
+	strcpy(mh.TENMH,arrtemp[k+j]->TENMH);
+	mh.STCLT = arrtemp[k+j]->STCLT;
+	mh.STCTH = arrtemp[k+j]->STCTH;
+	RemoveTree(ds,mh);
+//	
 	int max = 10,max1 = 50,max2 = 4;
 	int exit=0;
 	int thaotac=0;
@@ -428,7 +464,7 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 					}
 					ChoiceDataMH(thaotac,j+7);
 				} while (o==1);
-				strcpy(ds->monhoc.MAMH,mmh);
+				strcpy(mh.MAMH,mmh);
 			}
 			if (thaotac==1) {
 				int o=0;
@@ -444,11 +480,12 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 					}
 					ChoiceDataMH(thaotac,j+7);
 				} while (o==1);
-				strcpy(ds->monhoc.TENMH,tmh);
+				strcpy(mh.TENMH,tmh);
 			}
 			if (thaotac==2) {
 				int o=0;
 				do {
+					o=0;
 					ClearSignalMH(j + 7);
 					gotoxy(87,j+7);
 					cout << "    ";
@@ -459,11 +496,12 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 					}
 					ChoiceDataMH(thaotac,j+7);
 				} while (o==1);
-				ds->monhoc.STCLT = atoi(stclt);
+				mh.STCLT = atoi(stclt);
 			}
 			if (thaotac==3) {
 				int o=0;
 				do {
+					o=0;
 					ClearSignalMH(j + 7);
 					gotoxy(95,j+7);
 					cout << "    ";
@@ -474,10 +512,12 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 					}
 					ChoiceDataMH(thaotac,j+7);
 				} while (o==1);
-				ds->monhoc.STCTH = atoi(stcth);
+				mh.STCTH = atoi(stcth);
 			}
 		}	
 	}
+	Insert_Node_Tree(ds,mh);
+//	Fix_MaMonHoc(ds,arrtemp[k+j]->MAMH,mh);
 }
 
 void Sort(dsmh *a[500],int q, int r) {
@@ -503,10 +543,9 @@ void Sort(dsmh *a[500],int q, int r) {
 	if (i<r) {
 		Sort(a,i,r);
 	}
-//	delete temp;
 }
 
-dsmh* ConvertArray(PTR_NODETREE t)
+dsmh* ConvertArray(PTR_NODETREE t,int j)
 {
 	PTR_NODETREE p = t;
 	dsmh *arrtemp[500];
@@ -533,7 +572,7 @@ dsmh* ConvertArray(PTR_NODETREE t)
 			 else p = Stack[sp--];
 		i++;
 	}
-	return *arrtemp;
+	
 }
 
 int CountNode(PTR_NODETREE &t)
