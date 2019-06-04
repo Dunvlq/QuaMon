@@ -10,5 +10,4 @@ int main () {
 	resizeConsole(1920,1080);
 	Menu();
 	getch();
-
 }

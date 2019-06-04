@@ -138,20 +138,24 @@ void ChoiceLTC(int i,int j) {
 	}
 }
 
-void ChoiceData(int i,int j) {
+void ChoiceDataLTC(int i,int j) {
 	if (i == 0 ) {
-		gotoxy(31,j);
+		gotoxy(27,j);
 		cout << ">";
 	}
 	if (i == 1 ) {
-		gotoxy(55,j);
+		gotoxy(49,j);
 		cout << ">";
 	}
 	if (i == 2 ) {
-		gotoxy(76,j);
+		gotoxy(66,j);
 		cout << ">";
 	}
 	if (i == 3 ) {
+		gotoxy(76,j);
+		cout << ">";
+	}
+	if (i == 4 ) {
 		gotoxy(87,j);
 		cout << ">";
 	}
@@ -160,6 +164,7 @@ void ChoiceData(int i,int j) {
 void Print_Item_LTC()
 {
 	NODETT ds;
+	initializeTT(ds);
 	DocFile_LTC(ds);
 	int max = 10;
 	int k=0;
@@ -246,12 +251,12 @@ void Print_Item_LTC()
 				ClearChoice();
 				DrawBox(114,20,50,2);
 				gotoxy(116,20);
-				cout << "Nhap ma mon hoc can xoa!";
+				cout << "Nhap ma lop tin chi can xoa!";
 				char a[10];
 				fflush(stdin);
 				gotoxy(116,21);
-				InputString(a,max);
-				Delete_LTC_MAMONHOC(ds,a);
+				InputNumber(a,max);
+				Delete_LTC_MALOPTC(ds,atoi(a));
 				GhiFile_LTC(ds);
 				ClearTable();
 				Draw_LTC(ds,k);
@@ -274,12 +279,15 @@ void Print_Item_LTC()
 					if (c == DOWN)
 					{
 						thaotac++;
+						if (thaotac >=(ds.n-k-1)) {
+							thaotac=(ds.n-k-1);
+						}
 						if (thaotac >= 30) {
 							thaotac=29;
 						}
-						if (k > 0 && thaotac >=(ds.n-k-1)) {
-							thaotac=(ds.n-k-1);
-						}
+//						if (thaotac >=(ds.n-k-1)) {
+//							thaotac=(ds.n-k-1);
+//						}
 						gotoxy(5,thaotac+7);
 						cout << ">";
 						gotoxy(11,thaotac+7);
@@ -288,9 +296,7 @@ void Print_Item_LTC()
 						gotoxy(5,thaotac+6);
 						cout << " ";
 						gotoxy(11,thaotac+6);
-						cout << " ";
-						
-				
+						cout << " ";				
 					}
 					else if (c == UP)
 					{
@@ -445,6 +451,37 @@ void ChoiceMH(int i,int j) {
 		cout << "CHINH SUA MON HOC";
 	}
 }
+
+void ChoiceDataMH(int i,int j) {
+	if (i == 0 ) {
+		gotoxy(11,j);
+		cout << ">";
+	}
+	if (i == 1 ) {
+		gotoxy(26,j);
+		cout << ">";
+	}
+	if (i == 2 ) {
+		gotoxy(84,j);
+		cout << ">";
+	}
+	if (i == 3 ) {
+		gotoxy(92,j);
+		cout << ">";
+	}
+}
+
+void ClearSignalMH(int i) {
+	gotoxy(11,i);
+	cout << " ";
+	gotoxy(26,i);
+	cout << " ";
+	gotoxy(84,i);
+	cout << " ";
+	gotoxy(92,i);
+	cout << " ";
+}
+
 void Print_Item_MH()
 {
 	PTR_NODETREE kd;
@@ -552,7 +589,69 @@ void Print_Item_MH()
 				Show_Tree(kd,k);
 			}
 			else if (thaoTac == 2) {
-				
+				exit = false;
+				ClearTable();
+				ClearChoice();
+				DrawTableMH();
+				Show_Tree(kd,k);
+				int thaotac=0;
+				gotoxy(5,7);
+				cout << ">";
+				gotoxy(9,7);
+				cout << "<";
+				while (!exit) {
+					char c;
+					c = getch();
+					if (c == DOWN)
+					{
+						thaotac++;
+						if (thaotac >= CountNode(kd)-k-1) {
+							thaotac = CountNode(kd)-k-1;
+						}
+						if (thaotac >= 30) {
+							thaotac=29;
+						}
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(9,thaotac+7);
+						cout << "<";
+						//
+						gotoxy(5,thaotac+6);
+						cout << " ";
+						gotoxy(9,thaotac+6);
+						cout << " ";
+					}
+					else if (c == UP)
+					{
+						thaotac--;
+						if (thaotac <= 0) {
+							thaotac = 0;
+						}
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(9,thaotac+7);
+						cout << "<";
+						//
+						gotoxy(5,thaotac+8);
+						cout << " ";
+						gotoxy(9,thaotac+8);
+						cout << " ";
+					}
+					else if (c == ESC)
+					{
+						exit = true;
+					}
+					else if (c == ENTER) {
+						Fix_Data_MH(kd,thaotac,k);
+						ClearTable();
+						DrawTableMH();
+						Show_Tree(kd,k);
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(9,thaotac+7);
+						cout << "<";
+					}
+				}
 			}
 		}
 		//	highlight thao tac duoc chon
@@ -845,9 +944,11 @@ void ClearChoice() {
 }
 
 void ClearSignalLTC(int i) {
-	gotoxy(31,i);
+	gotoxy(27,i);
 	cout << " ";
-	gotoxy(55,i);
+	gotoxy(49,i);
+	cout << " ";
+	gotoxy(66,i);
 	cout << " ";
 	gotoxy(76,i);
 	cout << " ";
@@ -875,22 +976,31 @@ void DrawTableLTC() {
 		gotoxy(12,37);
 		cout << char(193);
 		//
-		gotoxy(30,i);
+		gotoxy(26,i);
 		cout << char(179);
-		gotoxy(30,4);
+		gotoxy(26,4);
 		cout << char(194);
-		gotoxy(30,6);
+		gotoxy(26,6);
 		cout << char(197);
-		gotoxy(30,37);
+		gotoxy(26,37);
 		cout << char(193);
 		//
-		gotoxy(54,i);
+		gotoxy(48,i);
 		cout << char(179);
-		gotoxy(54,4);
+		gotoxy(48,4);
 		cout << char(194);
-		gotoxy(54,6);
+		gotoxy(48,6);
 		cout << char(197);
-		gotoxy(54,37);
+		gotoxy(48,37);
+		cout << char(193);
+		//
+		gotoxy(65,i);
+		cout << char(179);
+		gotoxy(65,4);
+		cout << char(194);
+		gotoxy(65,6);
+		cout << char(197);
+		gotoxy(65,37);
 		cout << char(193);
 		//
 		gotoxy(75,i);
@@ -910,18 +1020,19 @@ void DrawTableLTC() {
 		cout << char(197);
 		gotoxy(86,37);
 		cout << char(193);
-	
 	}
 	gotoxy(7,5);
 	cout << "STT";
-	gotoxy(18,5);
+	gotoxy(16,5);
 	cout << "MALOPTC";
-	gotoxy(40,5);
+	gotoxy(35,5);
 	cout << "MA MH";
-	gotoxy(60,5);
+	gotoxy(52,5);
 	cout << "NIEN KHOA";
-	gotoxy(78,5);
+	gotoxy(67,5);
 	cout << "HOC KY";
+	gotoxy(79,5);
+	cout << "NHOM";
 	gotoxy(89,5);
 	cout << "SO SVMAX";
 }

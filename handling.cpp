@@ -159,19 +159,19 @@ void InputStringSpace(char *variable, int max)
 		MaxNhap = MAX_INPUT;
 	rewind(stdin);
 	InputSTR Nhap;	
-	Nhap.n = strlen(variable);
+	Nhap.n = 0;
 	while(true)
 	{
 		if(kbhit())
 		{
-			char c = getch();
-			if(!kbhit() && !(!((int)c >= 65 && (int)c <= 90) && !((int)c >= 97 && (int)c <= 122) && c != ' ' && !((int)c>=48 && (int)c<=57))&& Nhap.n < MaxNhap)
+			char c = _getch();
+			if(!kbhit() && !(!((int)c >= 65 && (int)c <= 90) && !((int)c >= 97 && (int)c <= 122) && c != ' ') && Nhap.n < MaxNhap && c != -32)
 			{
 				if(Nhap.n > 0 && *Nhap.Key[Nhap.n - 1] == ' ' && c == ' ')
 				{
 					continue;
 				}
-				if (Nhap.n == 0 && (int)c>=48 && (int)c<=57 ) {
+				if (Nhap.n == 0 && (int)c>=48 && (int)c<=57) {
 					continue;
 				}
 				if(!(Nhap.n == 0 && c == ' '))
@@ -183,7 +183,7 @@ void InputStringSpace(char *variable, int max)
 					Nhap.n++;
 				}
 			}
-			if(c == '\r')
+			if((c == '\r' || c == -32  || c == 27 || c == 13))
 			{
 				if(Nhap.n > 0 && *Nhap.Key[Nhap.n - 1] == ' ')
 				{

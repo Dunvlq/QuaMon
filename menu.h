@@ -61,6 +61,8 @@ void DrawTableMH();
 void Print_Item_MH();
 void DrawBoxItemMH();
 void ChoiceMH(int i,int j);
+void ChoiceDataMH(int i,int j);
+void ClearSignalMH(int i);
 // phan cho ltc
 void DrawTableLTC();
 void ClearSignalLTC(int i);
@@ -68,7 +70,7 @@ void Draw_LTC(NODETT ds,int i);
 void Print_Item_LTC();
 void DrawBoxItemLTC();
 void ChoiceLTC(int i,int j);
-void ChoiceData(int i,int j);
+void ChoiceDataLTC(int i,int j);
 // phan cho sv
 void Print_Item_SV();
 void DrawBoxItemSV();

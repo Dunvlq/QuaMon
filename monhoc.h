@@ -27,16 +27,18 @@ int Compare(dsmh x,dsmh y);
 void Insert_Node_Tree(PTR_NODETREE &ds,dsmh mh);
 dsmh Input_Tree (PTR_NODETREE &ds);
 void Show_Tree (PTR_NODETREE ds,int k);
+void Fix_Data_MH(PTR_NODETREE &ds,int j, int k);
 void Inorder(PTR_NODETREE p);
 NODETREE* FindMin(PTR_NODETREE ds);
 void RemoveTree (PTR_NODETREE &ds, dsmh mh);
 void DeleteNode(PTR_NODETREE &ds, dsmh mh);
-void ConvertArray(PTR_NODETREE t);
+dsmh* ConvertArray(PTR_NODETREE t);
 void DocFile_MH(PTR_NODETREE &ds);
 void GhiFile_MH(PTR_NODETREE &ds);
 int CountNode(PTR_NODETREE &t);
 PTR_NODETREE Search_MaMonHoc(PTR_NODETREE ds, char *mh);
 bool Check_MaMonHoc(PTR_NODETREE ds, char *mh);
-void Sort(dsmh *arr,int q, int r);
-void SwapArr(dsmh &arr1, dsmh &arr2);
+PTR_NODETREE Find_MaMonHoc(PTR_NODETREE &ds,dsmh mh);
+void Sort(dsmh *a[500],int q, int r);
+
 

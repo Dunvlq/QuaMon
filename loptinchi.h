@@ -10,20 +10,22 @@ struct dsloptinchi { // cau truc danh sach lop tin chi
 	int MALOPTC; //  random so co 3 chu so
 	char MAMH[12]; // ma mon hoc (10 ki tu)
 	unsigned int NIENKHOA;
-	int HOCKY;
+	unsigned int HOCKY;
+	unsigned int NHOM;
 	unsigned int SVMAX;
 	dssv *sv = NULL;
 };
 typedef struct dsloptinchi dsltc;
 
 struct nodett { // danh sach lop tin chi la mang con tro ( node tuyen tinh )
-	int n=0; 
+	int n; 
 	dsltc *nodett[MAX];
 };
 typedef struct nodett NODETT;	
 
 int Emptytt (NODETT &ds);
 int Fulltt (NODETT ds);
+void initializeTT(NODETT &ds);
 int Search_MAMONHOC (NODETT &ds, char MAMONHOC[10]); // ham tin ma mon hoc da co
 int Search_MALOPTC(NODETT &ds, unsigned int temp); // ham tim Ma lop tin chi da co
 int Search_NIENKHOA(NODETT &ds, unsigned int temp);

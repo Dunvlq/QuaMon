@@ -14,6 +14,9 @@ int Fulltt (NODETT ds) {
 	else return FALSE;
 }
 
+void initializeTT(NODETT &ds) {
+	ds.n=0;
+}
 
 int Search_MAMONHOC (NODETT &ds, char MAMONHOC[10]) { // ham kiem tra ma mon hoc co ton tai hay chua
 	for (int i=0;i<ds.n;i++) {
@@ -68,7 +71,7 @@ void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 	unsigned int temp;
 	int max = 10;
 	ds.nodett[ds.n] = new dsltc;
-	char MH[11],NK[11],HK[11],SVM[11];
+	char MH[11],NK[11],HK[11],N[11],SVM[11];
 	int a=0;
 	int exit=0;
 	int thaotac=0;
@@ -88,14 +91,6 @@ void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 			cout<< "                                 ";
 			gotoxy(123,6);
 			cout << "khong duoc de trong:";
-			a = 1;
-			getch();
-		}
-		if (Search_MAMONHOC(ds,MH) == 1) {
-			gotoxy(123,6);
-			cout<< "                                 ";
-			gotoxy(123,6);
-			cout << "ma mon hoc da co, nhap lai!";
 			a = 1;
 			getch();
 		}
@@ -140,18 +135,17 @@ void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 			getch();
 		}
 	} while (a==1);
-	
 	do {
 		gotoxy(123,18);
 		cout<< "                                 ";
 		DrawBox(121,17,43,2);
-		a=0;
 		gotoxy(123,17);
-		cout << "Nhap So Sinh Vien Toi Da:";
+		a=0;
+		cout << "Nhap nhom:";
 		fflush(stdin);
 		gotoxy(123,18);
-		InputNumber(SVM,max);
-		if (strlen(SVM)==0) {
+		InputNumber(N,max);
+		if (strlen(N)==0) {
 			gotoxy(123,18);
 			cout<< "                                 ";
 			gotoxy(123,18);
@@ -161,17 +155,37 @@ void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 		}
 	} while (a==1);
 	
+	do {
+		gotoxy(123,22);
+		cout<< "                                 ";
+		DrawBox(121,21,43,2);
+		a=0;
+		gotoxy(123,21);
+		cout << "Nhap So Sinh Vien Toi Da:";
+		fflush(stdin);
+		gotoxy(123,22);
+		InputNumber(SVM,max);
+		if (strlen(SVM)==0) {
+			gotoxy(123,22);
+			cout<< "                                 ";
+			gotoxy(123,22);
+			cout << "khong duoc de trong:";
+			a = 1;
+			getch();
+		}
+	} while (a==1);
+	
 	do {		
 			temp = Random();		
 	} while(Search_MALOPTC(ds,temp) == 1);
-	DrawBox(131,21,23,2);
-	gotoxy(139,21);
+	DrawBox(131,25,23,2);
+	gotoxy(139,25);
 	cout << "LUU LAI";
-	gotoxy(135,22);
+	gotoxy(135,26);
 	cout << "CO";
-	gotoxy(147,22);
+	gotoxy(147,26);
 	cout << "KHONG";
-	gotoxy(135,22);
+	gotoxy(135,26);
 	//hight light co
 	TextColor(140);
 	cout << "CO";
@@ -180,24 +194,24 @@ void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 		char key;
 		key = getch();
 		if (key == Left) {
-			gotoxy(135,22);
+			gotoxy(135,26);
 			TextColor(140);
 			cout << "CO";
 			if (thaotac == 0)
 				thaotac = 2 - 1;
 			else thaotac--;	
-			gotoxy(147,22);
+			gotoxy(147,26);
 			TextColor(DEN);
 			cout << "KHONG";
 		}
 		else if (key == Right) {
-			gotoxy(147,22);
+			gotoxy(147,26);
 			TextColor(140);
 			cout << "KHONG";
 			if (thaotac == 2 - 1)
 				thaotac = 0;
 			else thaotac++;
-			gotoxy(135,22);
+			gotoxy(135,26);
 			TextColor(DEN);
 			cout << "CO";
 		}
@@ -209,6 +223,7 @@ void Create_LopTinChi (NODETT &ds) { //ham them nhieu lop tin chi
 				strcpy(ds.nodett[ds.n]->MAMH,strupr(MH));
 				ds.nodett[ds.n]->NIENKHOA = atoi(NK);
 				ds.nodett[ds.n]->HOCKY = atoi(HK);
+				ds.nodett[ds.n]->NHOM = atoi(N);
 				ds.nodett[ds.n]->SVMAX = atoi (SVM);
 				ds.nodett[ds.n]->MALOPTC = temp;	
 				ds.n++;
@@ -225,10 +240,10 @@ void Fix_Data_LTC(NODETT &ds,int j, int k) {
 	int max = 10,max1 = 4;
 	int exit=0;
 	int thaotac=0;
-	int soitem = 4;
-	char mh[11],nk[11],hk[11],svm[11];
+	int soitem = 5;
+	char mh[11],nk[11],hk[11],n[11],svm[11];
 	ClearSignalLTC(j + 7);
-	ChoiceData(thaotac,j+7);
+	ChoiceDataLTC(thaotac,j+7);
 	while (1) {
 		char key1;
 		key1 = getch();
@@ -239,16 +254,16 @@ void Fix_Data_LTC(NODETT &ds,int j, int k) {
 				thaotac=0;
 			} 
 			ClearSignalLTC(j+7);
-			ChoiceData(thaotac,j+7);
+			ChoiceDataLTC(thaotac,j+7);
 		}
 		else if (key1 == Right)
 		{
 			thaotac++;
-			if (thaotac > 3) {
-				thaotac = 3;
+			if (thaotac > 4) {
+				thaotac = 4;
 			}
 			ClearSignalLTC(j+7);
-			ChoiceData(thaotac,j+7);
+			ChoiceDataLTC(thaotac,j+7);
 		}
 		else if (key1 == ESC)
 		{
@@ -260,27 +275,14 @@ void Fix_Data_LTC(NODETT &ds,int j, int k) {
 				do {
 					o=0;
 					ClearSignalLTC(j + 7);
-					gotoxy(38,j+7);
+					gotoxy(34,j+7);
 					cout << "            ";
-					gotoxy(39,j+7);
+					gotoxy(34,j+7);
 					InputString(mh,max);
-					if (Search_MAMONHOC(ds,mh)) {
-						gotoxy(39,j+7);
-						cout << "          ";
-						gotoxy(39,j+7);
-						cout << "Bi trung";
-						getch();
-						o=1;
-					}
 					if (strlen(mh)==0) {
-						gotoxy(38,j+7);
-						cout << "            ";
-						gotoxy(38,j+7);
-						cout << "NHAP MA MH";
-						getch();
 						o=1;
 					}
-					ChoiceData(thaotac,j+7);
+					ChoiceDataLTC(thaotac,j+7);
 				} while (o==1);
 				strcpy(ds.nodett[k+j]->MAMH,mh);
 			}
@@ -289,14 +291,14 @@ void Fix_Data_LTC(NODETT &ds,int j, int k) {
 				do {
 					o=0;
 					ClearSignalLTC(j + 7);
-					gotoxy(62,j+7);
+					gotoxy(55,j+7);
 					cout << "           ";
-					gotoxy(63,j+7);
+					gotoxy(55,j+7);
 					InputNumber(nk,max);
 					if (strlen(nk)==0) {
 						o=1;
 					}
-					ChoiceData(thaotac,j+7);
+					ChoiceDataLTC(thaotac,j+7);
 				} while (o==1);
 				ds.nodett[k+j]->NIENKHOA = atoi(nk);
 			}
@@ -305,18 +307,34 @@ void Fix_Data_LTC(NODETT &ds,int j, int k) {
 				do {
 					o=0;
 					ClearSignalLTC(j + 7);
-					gotoxy(77,j+7);
+					gotoxy(70,j+7);
 					cout << "      ";
-					gotoxy(80,j+7);
+					gotoxy(70,j+7);
 					InputNumber(hk,max1);
 					if (strlen(nk)==0) {
 						o=1;
 					}
-					ChoiceData(thaotac,j+7);
+					ChoiceDataLTC(thaotac,j+7);
 				} while (o==1);
 				ds.nodett[k+j]->HOCKY = atoi(hk);
 			}
 			if (thaotac==3) {
+				int o=0;
+				do {
+					o=0;
+					ClearSignalLTC(j + 7);
+					gotoxy(80,j+7);
+					cout << "      ";
+					gotoxy(80,j+7);
+					InputNumber(n,max1);
+					if (strlen(n)==0) {
+						o=1;
+					}
+					ChoiceDataLTC(thaotac,j+7);
+				} while (o==1);
+				ds.nodett[k+j]->NHOM = atoi(n);
+			}
+			if (thaotac==4) {
 				int o=0;
 				do {
 					o=0;
@@ -328,7 +346,7 @@ void Fix_Data_LTC(NODETT &ds,int j, int k) {
 					if (strlen(nk)==0) {
 						o=1;
 					}
-					ChoiceData(thaotac,j+7);
+					ChoiceDataLTC(thaotac,j+7);
 				} while (o==1);
 				ds.nodett[k+j]->SVMAX = atoi (svm);	
 			}
@@ -399,14 +417,16 @@ void Show_Data_LTC(NODETT &ds,int i) { // ham show du lieu
 	for (i;i<ds.n;i++) { // in ra data
 		gotoxy(7,j+7);
 		cout << i+1;
-		gotoxy(20,j+7);
+		gotoxy(18,j+7);
 		cout << ds.nodett[i]->MALOPTC;
-		gotoxy(39,j+7);
+		gotoxy(34,j+7);
 		cout << ds.nodett[i]->MAMH;
-		gotoxy(63,j+7);
+		gotoxy(55,j+7);
 		cout << ds.nodett[i]->NIENKHOA;
-		gotoxy(80,j+7);
+		gotoxy(70,j+7);
 		cout << ds.nodett[i]->HOCKY;
+		gotoxy(80,j+7);
+		cout << ds.nodett[i]->NHOM;
 		gotoxy(92,j+7);
 		cout << ds.nodett[i]->SVMAX;
 		j++;
@@ -430,6 +450,7 @@ void DocFile_LTC (NODETT &ds) { // load du lieu tu file vao bo nho
 		filein>>ds.nodett[ds.n]->MAMH;
 		filein>>ds.nodett[ds.n]->NIENKHOA;
 		filein>>ds.nodett[ds.n]->HOCKY;
+		filein>>ds.nodett[ds.n]->NHOM;
 		filein>>ds.nodett[ds.n]->SVMAX;
 		ds.n++;
 		if(filein == NULL) {
@@ -448,6 +469,7 @@ void GhiFile_LTC(NODETT &ds) { // ghi du lieu tu bo nho vao file
 		fileout << ds.nodett[i]->MAMH << "\n";
 		fileout << ds.nodett[i]->NIENKHOA << "\n";
 		fileout << ds.nodett[i]->HOCKY << "\n";
+		fileout << ds.nodett[i]->NHOM << "\n";
 		fileout << ds.nodett[i]->SVMAX;
 	}
 	fileout.close();
