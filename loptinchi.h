@@ -13,7 +13,7 @@ struct dsloptinchi { // cau truc danh sach lop tin chi
 	unsigned int HOCKY;
 	unsigned int NHOM;
 	unsigned int SVMAX;
-	dssv *sv = NULL;
+	DSSV *sv = NULL;
 };
 typedef struct dsloptinchi dsltc;
 
@@ -25,7 +25,7 @@ typedef struct nodett NODETT;
 
 int Emptytt (NODETT &ds);
 int Fulltt (NODETT ds);
-void initializeTT(NODETT &ds);
+void InitializeTT(NODETT &ds);
 int Search_MAMONHOC (NODETT &ds, char MAMONHOC[10]); // ham tin ma mon hoc da co
 int Search_MALOPTC(NODETT &ds, unsigned int temp); // ham tim Ma lop tin chi da co
 int Search_NIENKHOA(NODETT &ds, unsigned int temp);
@@ -33,7 +33,7 @@ int Search_HOCKY(NODETT &ds, unsigned int temp);
 int Search_SVMAX(NODETT &ds, unsigned int temp);
 int TraverseINT (NODETT &ds,unsigned int temp);
 int TraverseCHAR (NODETT &ds,char temp[10]);
-void InputLTC(NODETT &ds);
+int CheckMaMH(NODETT ds, char *mh);
 void Create_LopTinChi (NODETT &ds); // ham tao lop tin chi
 void Fix_Data_LTC(NODETT &ds,int j, int k);
 void Show_Data_LTC(NODETT &ds,int i); // ham xuat danh sach lop tin chi

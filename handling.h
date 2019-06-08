@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,6 +11,7 @@
 #define FALSE 0
 #define MAX_INPUT 255
 #define BACKSPACE 8
+
 
 struct InputSTR {
 	unsigned int n;
@@ -25,6 +27,10 @@ void TextColor(int x);
 void resizeConsole(int width, int height);
 int getx();
 int gety();
+void InputString1(char *variable, char &key, int len); //ham nhap chuoi khong co khoang trang
+void InputStringSpace1(char *variable, char &key, int len);
+void InputNumber1(int &variable, char *num, char &key, int len); // ham chi duoc nhap so
+
 void InputString(char *variable, int max); //ham nhap chuoi khong co khoang trang
 void InputStringSpace(char *variable, int max);
 void InputNumber(char *variable, int max); // ham chi duoc nhap so

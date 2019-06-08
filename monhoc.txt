@@ -1,109 +1,365 @@
 
-A
-DUY
-1
+BAS1102
+Duong Loi Cach Mang Cua Dang Cong San Viet Nam
+3
+0
+BAS1109
+Lich Su Cac Hoc Thuyet Kinh Te
 2
-ADFI
-DSGFR
-1
+0
+BAS1111
+Nhung Nguyen Ly Co Ban Cua Chu Nghia Mac Lenin 1
 2
-B
-CHIEN
-1
+0
+BAS1112
+Nhung Nguyen Ly Co Ban Cua Chu Nghia Mac Lenin 2
+3
+0
+BAS1122
+Tu Tuong Ho Chi Minh
 2
-C
-FGD
+0
+BAS1141
+Tieng Anh A11
+3
+0
+BAS1142
+Tieng Anh A21
+4
+0
+BAS1143
+Tieng Anh A12
+3
+0
+BAS1144
+Tieng Anh A22
+4
+0
+BAS1201
+Dai So
+3
+0
+BAS1203
+Giai Tich 1
+3
+0
+BAS1204
+Giai Tich 2
+3
+0
+BAS1224
+Vat Ly 1 Va Thi Nghiem
+3
+1
+BAS1226
+Xac Suat Thong Ke
 2
+0
+BAS1227
+Vat Ly 3 Va Thi Nghiem
+3
 1
-D
-BINH
-1
+BSA1241
+Toan Kinh Te
+3
+0
+BSA1311
+Kinh Te Vi Mo
+3
+0
+BSA1324
+Quan Tri Chat Luong
 2
-E
-ANH
-1
-2
-F
-SFD
-1
-2
-FUY
-V
-1
-2
-G
-FGD
-1
-2
-H
-ASD
-1
-2
-I
-ASD
-1
-2
-J
-ASD
-1
-2
-K
-DF
-1
-1
-L
-ASD
-1
-2
-M
-ASD
-1
-12
-N
-BABY
-1
-2
-O
-ASD
-1
-2
-P
-BNJ
-1
-2
-Q
-GH
-1
-2
-R
-XCV
-1
-2
-S
-ASD
-1
-2
-T
-SDC
-1
-1
-V
-DFG
-1
-2
-W
-AS
-1
-1
-X
-KDFSUJ
+0
+BSA1325
+Quan Tri Chien Luoc
+3
+0
+BSA1333
+Quan Tri San Xuat
+3
+0
+BSA1338
+Thong Ke Doanh Nghiep
+3
+0
+ELE1319
+Ly Thuyet Thong Tin
+3
+0
+ELE1330
+Xu Ly Tin Hieu So
 2
 1
-Y
-DFG
-1
-1
-Z
-FG
-1
+ELE1426
+Thiet Ke Logic So
+3
+0
+ELE1432
+Xu Ly Tieng Noi
+3
+0
+ELE1433
+Ky Thuat So
 2
+0
+FIA1321
+Nguyen Ly Ke Toan
+3
+0
+FIA1324
+Quan Tri Tai Chinh Doanh Nghiep
+3
+0
+FIA1326
+Tai Chinh Tien Te
+3
+0
+INT1154
+Tin Hoc Co So 1
+2
+1
+INT1155
+Tin Hoc Co So 2
+2
+1
+INT1303
+An Toan Va Bao Mat He Thong Thong Tin
+3
+0
+INT1306
+Cau Truc Du Lieu Va Giai Thuat
+3
+0
+INT13108
+Ngon Ngu Lap Trinh Java
+3
+0
+INT1313
+Co So Du Lieu
+3
+1
+INT1319
+He Dieu Hanh
+3
+0
+INT1323
+Kien Truc May Tinh
+2
+0
+INT1328
+Ky Thuat Do Hoa
+2
+0
+INT1330
+Ky Thuat Vi Xu Ly
+3
+0
+INT1332
+Lap Trinh Huong Doi Tuong
+3
+0
+INT1336
+Mang May Tinh
+2
+1
+INT1339
+Ngon Ngu Lap Trinh C Plus Plus
+3
+0
+INT1340
+Nhap Mon Cong Nghe Phan Mem
+3
+1
+INT1341
+Nhap Mon Tri Tue Nhan Tao
+3
+0
+INT1342
+Phan Tich Va Thiet Ke He Thong Thong Tin
+3
+0
+INT1358
+Toan Roi Rac 1
+2
+1
+INT1359
+Toan Roi Rac 2
+3
+0
+INT1362
+Xu Ly Anh
+2
+0
+INT1402
+An Ninh Mang
+3
+0
+INT1405
+Cac He Thong Phan Tan
+3
+0
+INT1414
+Co So Du Lieu Phan Tan
+2
+0
+INT1415
+Danh Gia Hieu Nang Mang
+3
+0
+INT1416
+Dam Bao Chat Luong Phan Mem
+3
+0
+INT1418
+He Co So Du Lieu Da Phuong Tien
+3
+0
+INT1422
+Kho Du Lieu Va Khai Pha Du Lieu
+3
+0
+INT1426
+Kien Truc Va Thuat Thoan Song Song
+3
+0
+INT1427
+Kien Truc Va Thiet Ke Phan Mem
+3
+0
+INT1433
+Lap Trinh Mang
+3
+0
+INT1434
+Lap Trinh Web
+3
+0
+INT1443
+Phan Tich Va Thiet Ke Thuat Toan
+3
+0
+INT1445
+Phat Trien He Thong Thong Tin Quan Ly
+3
+0
+INT1446
+Phat Trien He Thong Thuong Mai Dien Tu
+3
+0
+INT1448
+Phat Trien Phan Mem Huong Dich Vu
+3
+0
+INT1450
+Quan Ly Du An Phan Mem
+2
+0
+INT1451
+Quan Ly Mang May Tinh
+3
+0
+INT1452
+Thiet Ke Mang May Tinh
+3
+0
+INT1453
+Thiet Ke Va Cai Dat He Dieu Hanh
+3
+0
+INT1460
+Tuong Tac Nguoi May
+3
+0
+INT1461
+Xay Dung Cac He Thong Nhung
+3
+0
+MAR1304
+Hanh Vi Khach Hang
+2
+0
+MAR1309
+Phuong Phap Nghien Cuu Marketing
+3
+0
+MAR1312
+Quan Tri Co So Du Lieu Kinh Doanh
+2
+0
+MAR1318
+Ung Dung Da Phuong Tien Trong Kinh Doanh
+3
+0
+MAR1323
+Thuong Mai Dien Tu
+2
+0
+MAR1424
+Quan Tri Marketing
+2
+0
+MAR1425
+Marketing Dich Vu
+2
+0
+MAR1426
+Marketing Cong Nghiep
+2
+0
+MUL1218
+My Thuat Co Ban
+2
+0
+MUL1238
+Co So Tao Hinh
+3
+0
+MUL1307
+Xu Ly Va Truyen Thong Da Phuong Tien
+2
+0
+MUL13121
+Thiet Ke Do Hoa
+2
+0
+MUL13122
+Ky Thuat Nhiep Anh
+2
+0
+MUL1314
+Ky Thuat Quay Phim
+3
+0
+MUL1320
+Nhap Mon Da Phuong Tien
+2
+0
+MUL14128
+Lap Trinh Ky Xao Hinh Anh
+2
+0
+MUL14135
+Thiet Ke San Pham Da Phuong Tien
+3
+0
+MUL14136
+Nghe Thuat Do Hoa
+3
+0
+MUL1425
+Thiet Ke Tuong Tac Da Phuong Tien
+2
+0
+MUL1429
+Thiet Ke Web Co Ban
+2
+0
+MUL1446
+Lap Trinh Game Co Ban
+3
+0
+SKD1108
+Phuong Phap Luan Nghien Cuu Khoa Hoc
+2
+0

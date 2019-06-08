@@ -72,6 +72,7 @@ void DrawBoxItemLTC();
 void ChoiceLTC(int i,int j);
 void ChoiceDataLTC(int i,int j);
 // phan cho sv
+void DrawTableSV();
 void Print_Item_SV();
 void DrawBoxItemSV();
 void ChoiceSV(int i,int j);

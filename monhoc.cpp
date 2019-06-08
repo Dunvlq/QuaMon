@@ -1,3 +1,4 @@
+#pragma once
 #include "monhoc.h"
 #include "menu.h"
 
@@ -50,31 +51,38 @@ bool Check_MaMonHoc(PTR_NODETREE ds, char *mh) {
 	}
 }
 
-void Fix_MaMonHoc(PTR_NODETREE &ds,char *temp,dsmh mh) {
-	if (ds==NULL) {
-		return;
-	} 
-	else {
-		if (stricmp(Trim(temp),ds->monhoc.MAMH) == 0)
+bool Check_TenMonHoc(PTR_NODETREE ds, char *mh) {
+	PTR_NODETREE p = ds;
+	dsmh *arrtemp[500];
+	PTR_NODETREE Stack[500];
+	int sp = -1;
+	int i = 0;
+	while(p != NULL)
+	{
+		arrtemp[i] = new dsmh;
+		strcpy(arrtemp[i]->MAMH,p->monhoc.MAMH);
+		strcpy(arrtemp[i]->TENMH,p->monhoc.TENMH);
+		arrtemp[i]->STCLT = p->monhoc.STCLT;
+		arrtemp[i]->STCTH = p->monhoc.STCTH;
+		if(p->RIGHT != NULL)
 		{
-			strcpy(ds->monhoc.MAMH,mh.MAMH);
-			strcpy(ds->monhoc.TENMH,mh.TENMH);
-			ds->monhoc.STCLT = mh.STCLT;
-			ds->monhoc.STCTH = mh.STCTH;
-			return;
-//			gotoxy(20,20);
-//			cout << "dung";
-//			getch();
+			Stack[++sp] = p->RIGHT;
 		}
-		else if (stricmp(Trim(temp),ds->monhoc.MAMH) < 0)
+		if(p->LEFT != NULL)
 		{
-			Fix_MaMonHoc(ds->LEFT,temp, mh);
+			p = p->LEFT;
 		}
-		else if (stricmp(Trim(temp),ds->monhoc.MAMH) > 0 ) 
-		{
-			Fix_MaMonHoc(ds->RIGHT,temp, mh);
+		else if(sp == -1)
+				break;
+		else p = Stack[sp--];
+		i++;
+	}
+	for (int j=0;j<=i;j++) {
+		if (stricmp(mh,arrtemp[j]->TENMH)==0) {
+			return true;
 		}
 	}
+	return false;
 }
 
 PTR_NODETREE Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
@@ -99,150 +107,157 @@ PTR_NODETREE Search_MaMonHoc(PTR_NODETREE ds, char *mh) { // tim kiem theo key
 
 dsmh Input_Tree (PTR_NODETREE &ds) {
 	dsmh mh;
-	int a=0;
-	int exit=0;
-	int thaotac=0;
-	int maxten = 50;
-	int maxma = 10;
-	char mmh[11], tmh[51], stclt[11], stcth[11];
-	do {
-		gotoxy(112,6);
-		cout<< "                                        ";
-		DrawBox(110,5,54,2);
-		a=0;
-		gotoxy(112,5);
-		cout <<"Nhap Ma mon hoc:";
-		fflush(stdin);
-		gotoxy(112,6);
-		InputString(mmh,maxma);
-		if (strlen(mmh)==0) {
-			gotoxy(112,6);
-			cout<< "                                        ";
-			gotoxy(112,6);
-			cout << "khong duoc de trong!";
-			a = 1;
-			getch();
-		}
-		if (Check_MaMonHoc(ds,mmh)) {
-			gotoxy(112,6);
-			cout<< "                                        ";
-			gotoxy(112,6);
-			cout << "Ma mon hoc da co, nhap lai!";
-			a = 1;
-			getch();
-		}
-	} while (a == 1);
-	strcpy(mh.MAMH,mmh);
-	do {
-		gotoxy(112,10);
-		cout<< "                                        ";
-		DrawBox(110,9,54,2);
-		a = 0;
-		gotoxy(112,9);
-		cout <<"Nhap ten mon hoc: ";
-		rewind(stdin);
-		gotoxy(112,10);
-		InputStringSpace(tmh,maxten);
-		if (strlen(tmh)==0) {
-			gotoxy(112,10);
-			cout<< "                                        ";
-			gotoxy(112,10);
-			cout << "khong duoc de trong!";
-			a = 1;
-			getch();
-		}
-	} while (a == 1 );
-	strcpy(mh.TENMH,tmh);
-	do {
-		gotoxy(112,14);
-		cout<< "                                        ";
-		DrawBox(110,13,54,2);
-		a=0;
-		gotoxy(112,13);
-		cout <<"Nhap so tin chi ly thuyet: ";
-		fflush(stdin);
-		gotoxy(112,14);
-		InputNumber(stclt,maxma);
-		if (strlen(stclt)==0) {
-			gotoxy(112,14);
-			cout<< "                                        ";
-			gotoxy(112,14);
-			cout << "khong duoc de trong!";
-			a = 1;
-			getch();
-		}
-	} while (a==1);
-	mh.STCLT = atoi(stclt);
-	do {
-		gotoxy(112,18);
-		cout<< "                                        ";
-		DrawBox(110,17,54,2);
-		a=0;
-		gotoxy(112,17);
-		cout <<"Nhap so tin chi thuc hanh: ";
-		fflush(stdin);
-		gotoxy(112,18);
-		InputNumber(stcth,maxma);
-		if (strlen(stcth)==0) {
-			gotoxy(112,18);
-			cout<< "                                        ";
-			gotoxy(112,18);
-			cout << "khong duoc de trong!";
-			a = 1;
-			getch();
-		}				
-	} while (a==1);
-	mh.STCTH = atoi(stcth);
-	DrawBox(131,21,23,2);
-	gotoxy(139,21);
-	cout << "LUU LAI";
-	gotoxy(135,22);
-	cout << "CO";
-	gotoxy(147,22);
-	cout << "KHONG";
-	gotoxy(135,22);
-	//hight light co
-	TextColor(140);
-	cout << "CO";
-	TextColor(DEN);
-	while (exit == 0) {
-		char key;
-		key = getch();
-		if (key == Left) {
-			gotoxy(135,22);
-			TextColor(140);
-			cout << "CO";
-			if (thaotac == 0)
-				thaotac = 2 - 1;
-			else thaotac--;	
-			gotoxy(147,22);
-			TextColor(DEN);
-			cout << "KHONG";
-		}
-		else if (key == Right) {
-			gotoxy(147,22);
-			TextColor(140);
-			cout << "KHONG";
-			if (thaotac == 2 - 1)
-				thaotac = 0;
-			else thaotac++;
-			gotoxy(135,22);
-			TextColor(DEN);
-			cout << "CO";
-		}
-		else if (key == ESC) {
-			exit = 1;
-		}
-		else if (key == ENTER) {
-			if (thaotac == 0) {
-				return mh;
+	bool condition = true;
+	int thaotac=1;
+	char buffer[33];
+	char key1;
+	char mmh[11] = {'\0'};
+	char tmh[51] = {'\0'};
+	int stclt = 0;
+	int stcth = 0; 
+	char len1[10] = {'\0'};
+	char len2[10] = {'\0'};
+	DrawBox(110,5,54,2);
+	gotoxy(112,5);
+	cout <<"Nhap Ma mon hoc:";
+	DrawBox(110,9,54,2);
+	gotoxy(112,9);
+	cout <<"Nhap ten mon hoc:";	
+	DrawBox(110,13,54,2);
+	gotoxy(112,13);
+	cout <<"Nhap so tin chi ly thuyet:";
+	DrawBox(110,17,54,2);
+	gotoxy(112,17);
+	cout <<"Nhap so tin chi thuc hanh:";
+	while(condition)
+	{
+		switch(thaotac)
+		{
+			case 1:
+			{
+				gotoxy(107,6);
+				cout << ">>>";
+				gotoxy(112 + strlen(mmh),6);
+				InputString1(mmh,key1,10);
+				gotoxy(107,6);
+				cout << "   ";
+				break;
 			}
-			else if (thaotac == 1 ) {
-				strcpy(mh.MAMH,"null");
-				
-				return mh;
+			case 2:
+			{
+				gotoxy(107,10);
+				cout << ">>>";
+				gotoxy(112 + strlen(tmh),10);
+				InputStringSpace1(tmh,key1,50);
+				gotoxy(107,10);
+				cout << "   ";
+				break;
+			}	
+			case 3:
+			{
+				gotoxy(107,14);
+				cout << ">>>";
+				gotoxy(112 + strlen(len1),14);
+				InputNumber1(stclt,len1,key1,1);
+				gotoxy(107,14);
+				cout << "   ";
+				break;
 			}
-		}	
+			case 4:
+			{
+				gotoxy(107,18);
+				cout << ">>>";
+				gotoxy(112 + strlen(len2),18);
+				InputNumber1(stcth,len2,key1,1);
+				gotoxy(107,18);
+				cout << "   ";
+				break;
+			}
+		}
+		if(key1 == UP)
+		{
+			if(thaotac == 1)
+			{
+				thaotac = 4;
+			}
+			else
+			{
+				thaotac--;
+			}
+		}
+		if(key1 == DOWN)
+		{
+			if(thaotac >= 4)
+			{
+				thaotac = 1;
+			}
+			else
+			{
+				thaotac++;
+			}
+		}
+		if(key1 == ENTER)
+		{
+			if (Check_MaMonHoc(ds,mmh)) {
+				gotoxy(112,6);
+				cout<< "                                        ";
+				gotoxy(112,6);
+				cout << "Ma mon hoc da co, nhap lai!";
+				getch();
+				gotoxy(112,6);
+				cout<< "                                        ";
+				continue;
+			}
+			if (Check_TenMonHoc(ds,tmh)) {
+				gotoxy(112,10);
+				cout<< "                                        ";
+				gotoxy(112,10);
+				cout << "Ten mon hoc da co, nhap lai!";
+				getch();
+				gotoxy(112,10);
+				cout<< "                                        ";
+				continue;
+			}
+			if (strlen(mmh)==0) {
+				gotoxy(112,6);
+				cout<< "                                        ";
+				gotoxy(112,6);
+				cout << "Khong duoc de trong!";
+				getch();
+				gotoxy(112,6);
+				cout<< "                                        ";
+				continue;
+			}
+			if (strlen(tmh)==0) {
+				gotoxy(112,10);
+				cout<< "                                        ";
+				gotoxy(112,10);
+				cout << "Khong duoc de trong!";
+				getch();
+				gotoxy(112,10);
+				cout<< "                                        ";
+				continue;
+			}
+			if (stclt==0) {
+				gotoxy(112,14);
+				cout<< "                                        ";
+				gotoxy(112,14);
+				cout << "Khong duoc de trong!";
+				getch();
+				gotoxy(112,14);
+				cout<< "                                        ";
+				continue;
+			}
+			strcpy(mh.MAMH,mmh);
+			strcpy(mh.TENMH,tmh);
+			mh.STCLT = stclt;
+			mh.STCTH = stcth;
+			return mh;
+		}
+		if(key1 == ESC) {
+			strcpy(mh.MAMH,"null");
+			return mh;
+		}
 	}
 }
 
@@ -355,7 +370,7 @@ void Show_Tree (PTR_NODETREE ds,int k) {
 		else p = Stack[sp--];
 		i++;
 	}
-//	Sort(arrtemp,0,i-1);
+	Sort(arrtemp,0,i);
 	int j=0;
 	TextColor(DEN);
 	for (k;k<=i;k++) {	
@@ -377,7 +392,7 @@ void Show_Tree (PTR_NODETREE ds,int k) {
 }
 
 void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
-	dsmh mh,ab;
+	dsmh mh;
 	PTR_NODETREE p = ds;
 	dsmh *arrtemp[500];
 	PTR_NODETREE Stack[500];
@@ -403,6 +418,7 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 		else p = Stack[sp--];
 		i++;
 	}
+	Sort(arrtemp,0,i);
 	strcpy(mh.MAMH,arrtemp[k+j]->MAMH);
 	strcpy(mh.TENMH,arrtemp[k+j]->TENMH);
 	mh.STCLT = arrtemp[k+j]->STCLT;
@@ -416,7 +432,7 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 	char mmh[11], tmh[51], stclt[11], stcth[11];
 	ClearSignalMH(j + 7);
 	ChoiceDataMH(thaotac,j+7);
-	while (1) {
+	while (true) {
 		char key1;
 		key1 = getch();
 		if (key1 == Left)
@@ -478,6 +494,14 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 					if (strlen(tmh)==0) {
 						o = 1;
 					}
+					if (Check_TenMonHoc(ds,tmh)) {
+						gotoxy(29,j+7);
+						cout << "                                                  ";
+						gotoxy(29,j+7);
+						cout << "Bi trung";
+						o = 1;
+						getch();
+					}
 					ChoiceDataMH(thaotac,j+7);
 				} while (o==1);
 				strcpy(mh.TENMH,tmh);
@@ -517,7 +541,7 @@ void Fix_Data_MH(PTR_NODETREE &ds,int j, int k) {
 		}	
 	}
 	Insert_Node_Tree(ds,mh);
-//	Fix_MaMonHoc(ds,arrtemp[k+j]->MAMH,mh);
+
 }
 
 void Sort(dsmh *a[500],int q, int r) {
@@ -607,7 +631,7 @@ void DocFile_MH(PTR_NODETREE &ds) {
 	    	}
 		}
 	} else {
-		
+		return;
 	}
 	
 	filein.close();

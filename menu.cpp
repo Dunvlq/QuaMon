@@ -110,31 +110,37 @@ void Print_Item()
 }
 
 void DrawBoxItemLTC() {
-	for (int i = 0;i < 3; i++) {
+	for (int i = 0;i < 4; i++) {
 		TextColor(137);
-		DrawBox(114,12+i*7,50,2);
-		gotoxy(131,13);
+		DrawBox(114,8+i*7,50,2);
+		gotoxy(131,9);
 		cout << "THEM LOP TIN CHI";
-		gotoxy(132,13+7);
+		gotoxy(132,9+7);
 		cout << "XOA LOP TIN CHI";
-		gotoxy(129,13+14);
+		gotoxy(129,9+14);
 		cout << "CHINH SUA LOP TIN CHI";
+		gotoxy(126,9+21);
+		cout << "DANH SACH SINH VIEN CUA LOP";
 	}
 }
 
 void ChoiceLTC(int i,int j) {
 	TextColor(j);
 	if (i == 0) {
-		gotoxy(131,13);
+		gotoxy(131,9);
 		cout << "THEM LOP TIN CHI";
 	}
 	if (i == 1) {
-		gotoxy(132,13+7);
+		gotoxy(132,9+7);
 		cout << "XOA LOP TIN CHI";
 	}
 	if (i == 2) {
-		gotoxy(129,13+14);
+		gotoxy(129,9+14);
 		cout << "CHINH SUA LOP TIN CHI";
+	}
+	if (i  == 3) {
+		gotoxy(126,9+21);
+		cout << "DANH SACH SINH VIEN CUA LOP";
 	}
 }
 
@@ -164,13 +170,13 @@ void ChoiceDataLTC(int i,int j) {
 void Print_Item_LTC()
 {
 	NODETT ds;
-	initializeTT(ds);
+	InitializeTT(ds);
 	DocFile_LTC(ds);
 	int max = 10;
 	int k=0;
 	int thaoTac = 0;	
 	bool exit = false;
-	int So_item = 3;
+	int So_item = 4;
 	TextColor(DEN);
 	//	in tieu de chuong trinh
 	for (int i=3;i<=165;i++) {
@@ -193,7 +199,7 @@ void Print_Item_LTC()
 	DrawBoxItemLTC();
 	//	highlight thao tac dau tien khi mo chuong trinh
 	TextColor(140);
-	gotoxy(131,13);
+	gotoxy(131,9);
 	cout << "THEM LOP TIN CHI";
 	TextColor(DEN);
 	Draw_LTC(ds,k);
@@ -285,9 +291,6 @@ void Print_Item_LTC()
 						if (thaotac >= 30) {
 							thaotac=29;
 						}
-//						if (thaotac >=(ds.n-k-1)) {
-//							thaotac=(ds.n-k-1);
-//						}
 						gotoxy(5,thaotac+7);
 						cout << ">";
 						gotoxy(11,thaotac+7);
@@ -335,11 +338,74 @@ void Print_Item_LTC()
 				ClearChoice();
 				DrawBoxItemLTC();
 			}
+			else if (thaoTac == 3) {
+				exit = false;
+				ClearTable();
+				ClearChoice();
+				Draw_LTC(ds,k);
+				int thaotac=0;
+				gotoxy(5,7);
+				cout << ">";
+				gotoxy(11,7);
+				cout << "<";
+				while (!exit) {
+					char c;
+					c = getch();
+					if (c == DOWN)
+					{
+						thaotac++;
+						if (thaotac >=(ds.n-k-1)) {
+							thaotac=(ds.n-k-1);
+						}
+						if (thaotac >= 30) {
+							thaotac=29;
+						}
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(11,thaotac+7);
+						cout << "<";
+						//
+						gotoxy(5,thaotac+6);
+						cout << " ";
+						gotoxy(11,thaotac+6);
+						cout << " ";				
+					}
+					else if (c == UP)
+					{
+						thaotac--;
+						if (thaotac <= 0) {
+							thaotac = 0;
+						}
+						gotoxy(5,thaotac+7);
+						cout << ">";
+						gotoxy(11,thaotac+7);
+						cout << "<";
+						//
+						gotoxy(5,thaotac+8);
+						cout << " ";
+						gotoxy(11,thaotac+8);
+						cout << " ";	
+					}
+					else if (c == ESC)
+					{
+						exit = true;
+					}
+					else if (c == ENTER) {
+					
+					}
+				}
+				exit = false;
+				ClearTable();
+				Draw_LTC(ds,k);
+				ClearChoice();
+				DrawBoxItemLTC();
+			}
+			
 		}
 		//	highlight thao tac duoc chon
-		ChoiceLTC(thaoTac,140);
-		// dua cac thao tac khac ve mau mac dinh
-		TextColor(DEN);
+			ChoiceLTC(thaoTac,140);
+			// dua cac thao tac khac ve mau mac dinh
+			TextColor(DEN);
 	}
 }
 
@@ -364,6 +430,101 @@ void ChoiceSV(int i,int j) {
 		gotoxy(73,23);
 		cout << "IN DANH SACH SINH VIEN";
 	}
+}
+
+void DrawTableSV() {
+	TextColor(DEN);
+	DrawBox(4,4,95,33);
+	for (int i=5;i<=98;i++) { // line ngang 
+		gotoxy(i,6);
+		cout << char(196);
+		gotoxy(4,6);
+		cout << char(195);
+		gotoxy(99,6);
+		cout << char(180);
+	}
+	for (int i=5;i<=36;i++) {
+		gotoxy(10,i);
+		cout << char(179);
+		gotoxy(10,4);
+		cout << char(194);
+		gotoxy(10,6);
+		cout << char(197);
+		gotoxy(10,37);
+		cout << char(193);
+		//
+		gotoxy(24,i);
+		cout << char(179);
+		gotoxy(24,4);
+		cout << char(194);
+		gotoxy(24,6);
+		cout << char(197);
+		gotoxy(24,37);
+		cout << char(193);
+		//
+		gotoxy(39,i);
+		cout << char(179);
+		gotoxy(39,4);
+		cout << char(194);
+		gotoxy(39,6);
+		cout << char(197);
+		gotoxy(39,37);
+		cout << char(193);
+		//
+		gotoxy(62,i);
+		cout << char(179);
+		gotoxy(62,4);
+		cout << char(194);
+		gotoxy(62,6);
+		cout << char(197);
+		gotoxy(62,37);
+		cout << char(193);
+		//
+		gotoxy(72,i);
+		cout << char(179);
+		gotoxy(72,4);
+		cout << char(194);
+		gotoxy(72,6);
+		cout << char(197);
+		gotoxy(72,37);
+		cout << char(193);
+		//
+		gotoxy(81,i);
+		cout << char(179);
+		gotoxy(81,4);
+		cout << char(194);
+		gotoxy(81,6);
+		cout << char(197);
+		gotoxy(81,37);
+		cout << char(193);
+	}
+	gotoxy(6,5);
+	cout << "STT";
+	gotoxy(14,5);
+	cout << "MA LOP";
+	gotoxy(29,5);
+	cout << "MA SV";
+	gotoxy(50,5);
+	cout << "HO";
+	gotoxy(66,5);
+	cout << "TEN";
+	gotoxy(75,5);
+	cout << "PHAI";
+	gotoxy(84,5);
+	cout << "SO DIEN THOAI";
+//	//
+//	gotoxy(13,7);
+//	cout << "D17CQCN01";
+//	gotoxy(27,7);
+//	cout << "N17DCCN024";
+//	gotoxy(42,7);
+//	cout << "Dinh Nguyen Thien";
+//	gotoxy(65,7);
+//	cout << "DUNG";
+//	gotoxy(75,7);
+//	cout << "NAM";
+//	gotoxy(85,7);
+//	cout << "0379623598";
 }
 
 void Print_Item_SV()
@@ -414,6 +575,9 @@ void Print_Item_SV()
 		}
 		else if (key == ENTER)
 		{
+			if (thaoTac == 0) {
+				
+			}
 			
 		}
 		//	highlight thao tac duoc chon
@@ -643,7 +807,10 @@ void Print_Item_MH()
 					}
 					else if (c == ENTER) {
 						Fix_Data_MH(kd,thaotac,k);
+						GhiFile_MH(kd);
+						DocFile_MH(kd);
 						ClearTable();
+						ClearChoice();
 						DrawTableMH();
 						Show_Tree(kd,k);
 						gotoxy(5,thaotac+7);
@@ -652,6 +819,8 @@ void Print_Item_MH()
 						cout << "<";
 					}
 				}
+				DrawBoxItemMH();
+				exit = false;
 			}
 		}
 		//	highlight thao tac duoc chon
